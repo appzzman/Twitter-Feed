@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0BB7A5EE-0694-462F-AF7F-E8541759A67A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Socializer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5DB6ABAAD05FA7E049B17A1E3E621A61B1EB2712</key>
+		<string>https://github.com/izotx/Socializer.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Socializer.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5DB6ABAAD05FA7E049B17A1E3E621A61B1EB2712</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/izotx/Socializer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5DB6ABAAD05FA7E049B17A1E3E621A61B1EB2712</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5DB6ABAAD05FA7E049B17A1E3E621A61B1EB2712</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Socializer</string>
+		</dict>
+	</array>
+</dict>
+</plist>

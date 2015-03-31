@@ -47,15 +47,17 @@ class ImageDownloader: NSOperation {
 
 class Networking{
     
-    var images:[String] = [String]()
+
     var currentDownloads :[String:NSOperation] = [String:NSOperation]()
     var downloadHandler:((url:String, image:UIImage? )->Void)!
     
     let operationQueue:NSOperationQueue = NSOperationQueue();
     
     func downloadImageForIndexPath(path:String, url:String){
-        if let img = currentDownloads[path] {
+        if let operation = currentDownloads[path] {
             //do nothing and relax. You are downloading the file right now.
+            println("dowloading right now")
+        
         }
         else{
 
@@ -63,7 +65,7 @@ class Networking{
             operation.completionBlock = {
                 println("Completed")
                 self.currentDownloads.removeValueForKey(path)
-                self.downloadHandler(url: path, image:operation.image)
+                self.downloadHandler(url: url, image:operation.image)
    
             }
 
@@ -117,6 +119,7 @@ class Networking{
 
 class TweeterManager{
     var tweets : [JMCTweet] = []
+    var images :[String: UIImage] = [String: UIImage]()
     var networkingManager:Networking
 
     var swifter: Swifter
@@ -125,87 +128,98 @@ class TweeterManager{
     
     var completionHandler:(()->Void)! //updating entire table
     var errorHandler:((error:String)->Void)! // errors
-   // var tweetHandler:((path:String)->Void)!//handles updating single tweet
+    var cellHandler:((path:String, image:UIImage)->Void)!
+    
+    var maxId:UInt64?
+    var minId:UInt64?
     
     init(){
           swifter = Swifter(consumerKey: "9LUhnfxzbYb7hdaS4bSVZawgZ", consumerSecret: "7XPh2AUJTxEWQRO4SMrTNDsvPZitHXKPlDhzZ9LKhsFsiCC3Ne", appOnly: true)
         networkingManager = Networking()
-        self.networkingManager.downloadHandler = {(path:String, image:UIImage?)->Void in
+        self.networkingManager.downloadHandler = {(path:String, img:UIImage?)->Void in
             println("Updated Image")
-            var tweet = self.tweets.filter{ $0.profileImageURL == path }.first
-            tweet?.profileImage = image;
-            //update table view at this index 
-            //TODO: fix this crap for displaying in table view
+            self.images[path] = img
+            self.cellHandler(path: path, image:img!)
+        }
+        authenticateApp()
+    }
+    
+
+    //get all
+    func getTweetsWithHandler(completionHandler:()->Void, errorHandler:(error:String)->Void, cellHandler:(path:String, image:UIImage)->Void, upperBond:Bool, lowerBond:Bool ){
+        self.completionHandler = completionHandler
+        self.errorHandler = errorHandler
+        self.cellHandler = cellHandler
+        
+//         var sample_text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
+//   
+//       // var json = JSONValue(sample_text)
+//        var t:JMCTweet = JMCTweet()
+//        t.text = sample_text
+//        self.tweets.append(t)
+//        self.completionHandler()
+
+        if (upperBond == true) {
+            if let mid = self.maxId {
+              self.getTweetsWithSearchQuery(self.searchQuery,maxId: String(mid), minId: nil)
+            }
+            else{
+              self.getTweetsWithSearchQuery(self.searchQuery,maxId: nil,minId: nil)
+            }
+        }
+        else if lowerBond == true {
+            if let xId = self.minId
+            {
+                self.getTweetsWithSearchQuery(self.searchQuery , maxId: nil, minId: String(xId))
+            }
+            else{
+                self.getTweetsWithSearchQuery(self.searchQuery,maxId: nil,minId: nil)
+            }
+
+        }
+        else{
+              self.getTweetsWithSearchQuery(self.searchQuery,maxId: nil,minId: nil)
         }
         
         
-      
-        authenticateApp()
+    
+    }
+    
+    
+    func getTweetsWithSearchQuery(searchQuery:String, maxId:String?, minId:String?){
        
-        
-    }
-    
 
-    
-    
-    func getTweetsWithHandler(completionHandler:()->Void, errorHandler:(error:String)->Void) {
-        self.completionHandler = completionHandler
-        self.errorHandler = errorHandler
-         var sample_text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
-   
-       // var json = JSONValue(sample_text)
-        var t:JMCTweet = JMCTweet()
-        t.text = sample_text
-        self.tweets.append(t)
-        self.completionHandler()
-
-        getRecentTweets()
-        
-    
-    }
-    
-    //get recent tweets
-    func authenticateApp(){
-        self.swifter.authorizeAppOnlyWithSuccess({ (accessToken, response) -> Void in
-        
-            //Create an array sorted by TweetId
-            //Every
-
-            
-            }, failure: { (error) -> Void in
-                println(error)
-                self.tweets.removeAll(keepCapacity: false)
+        self.swifter.getSearchTweetsWithQuery(
+            searchQuery, geocode: nil, lang: nil, locale: nil, resultType: "recent", count: nil, until: nil, sinceID:minId, maxID: maxId, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
                 
-                var t:JMCTweet = JMCTweet()
-                t.text = error.debugDescription
-                self.tweets.append(t)
+                var tempMin: UInt64 = 0
+                var tempMax: UInt64 = 0
                 
-                self.completionHandler()
-
-        })
-    }
-    
-    func getRecentTweets(){
-    self.swifter.getSearchTweetsWithQuery(
-    searchQuery, geocode: nil, lang: nil, locale: nil, resultType: "recent", count: nil, until: nil, sinceID: nil, maxID: nil, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
-        //println(statuses);
         for status in statuses! {
             
                 var tweet = JMCTweet()
-                tweet.id = status["id_str"].string
+            
+            if let id = status["id_str"].string {
+                tweet.id = id.toInt()
+            }
+            
                 tweet.name = status["user"]["name"].string
                 tweet.profileImageURL = status["user"]["profile_image_url_https"].string
+                tweet.text = status["text"].string
                 if let profile =  tweet.profileImageURL {
-                    tweet.profileImage = self.networkingManager.getImage(profile)
+                   
+                  var image = self.networkingManager.getImage(profile)
+                    if let img = image {
+                        tweet.profileImage = img
+                        self.images[tweet.profileImageURL!] = img
+                    }
+
+                        
+                        self.networkingManager.getImage(profile)
                 }
                 self.tweets.append(tweet)
-        
+                self.completionHandler()
         }
-
-        
-        
-        
-
     }, failure: { (error) -> Void in
         println("Error:\(error)")
         self.tweets.removeAll(keepCapacity: false)
@@ -218,32 +232,44 @@ class TweeterManager{
     })
 
     }
+    
+    
+    //get recent tweets
+    func authenticateApp(){
+        self.swifter.authorizeAppOnlyWithSuccess({ (accessToken, response) -> Void in
+            
+            //Create an array sorted by TweetId
+            //Every
+            
+            
+            }, failure: { (error) -> Void in
+                println(error)
+                self.tweets.removeAll(keepCapacity: false)
+                
+                var t:JMCTweet = JMCTweet()
+                t.text = error.debugDescription
+                self.tweets.append(t)
+                
+                self.completionHandler()
+                
+        })
+    }
+    
+
+    
+    
 }
 
 
 class JMCTweet{
     var text:String?
     var name:String?
-    var id:String?
+    var id:Int?
     var profileImageURL:String?
     var profileImage:UIImage?
 }
 
-/*
 
-{
-
-       "text" : "Рубан и Тандид — аферисты или посредники? - Новости Украины - From-UA http://t.co/SNNaKjusVS с помощью @twitterapi",
-    "user" : {
-
-        "name" : " Украинка",
-        
-        },
-    },
-    "id_str" : "581261585961889792",
-
-}
-*/
 
 class TweetCell: UITableViewCell {
     
@@ -322,11 +348,39 @@ extension UITableViewCell {
 class TwitterViewController: UITableViewController {
 
     var tm:TweeterManager =  TweeterManager()
-    var networkingManager = Networking()
+   // var networkingManager = Networking()
     func updateTable()->Void{
+       
+        //get tweets
         self.tableView.reloadData()
         endRefreshing()
     }
+
+    func updateCell(path:String, image:UIImage)->Void{
+        //get cell for the given value
+       // let filteredArray = tm.tweets.filter({$0.profileImageURL == path})
+        var found: Int?
+        for i in 0...tm.tweets.count {
+            if tm.tweets[i].profileImageURL == path {
+                found = i
+            }
+            break;
+        }
+        if let f = found{
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                // do some task
+                dispatch_async(dispatch_get_main_queue()) {
+                    // update some UI
+                    println("This is run on the main queue, after the previous block")
+                    var indexPath = NSIndexPath(forRow: f, inSection: 0)
+                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
+            }
+
+        }
+    }
+
     
     func errorHandler(error:String)->Void{
         endRefreshing()
@@ -338,21 +392,20 @@ class TwitterViewController: UITableViewController {
         self.refreshControl = UIRefreshControl()
         self.refreshControl!.tintColor = UIColor.darkGrayColor()
         self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to Refresh")
-        self.refreshControl!.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl!.addTarget(self, action: "loadMore", forControlEvents: UIControlEvents.ValueChanged)
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44.0
     
-        tm.getTweetsWithHandler(updateTable, errorHandler)
+        tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: false, lowerBond: false)
     
     }
     
-    func refresh(){
-        //reload data here 
-        //load more 
-        /// we need to add a callback here
+    func loadMore(){
+        //reload data here
+         tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: false, lowerBond: true)
     
-        self.endRefreshing()
+        //self.endRefreshing()
         
     }
     
@@ -381,10 +434,20 @@ class TwitterViewController: UITableViewController {
         ///let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "tweetCell") as TweetCell
         let tweet = tm.tweets[indexPath.row]
         var cell = tableView.dequeueReusableCellWithIdentifier("tweetCell") as TweetCell
-        
-        cell.textView.text = tweet.text
-        cell.cellImageView.image = tweet.profileImage
+
         cell.titleLabel.text = tweet.name
+        cell.textView.text = tweet.text
+        if let t = tweet.profileImageURL {
+            
+            cell.cellImageView.image = tm.images[tweet.profileImageURL!]
+
+        }
+        
+        if (indexPath.row ==  tm.tweets.count - 1)
+        {
+            tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: true, lowerBond: false)
+        }
+
         
         return cell
     }
