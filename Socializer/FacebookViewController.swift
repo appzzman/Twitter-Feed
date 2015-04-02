@@ -20,6 +20,8 @@ class FacebookViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+ //   https://developers.facebook.com/docs/graph-api/reference/v2.3/page/feed
+    
 
 }
 
