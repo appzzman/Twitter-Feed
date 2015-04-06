@@ -7,6 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		249FEA2B1AD29EC2009A05AB /* TwitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */; };
+		24D789BF1AD2A04D0066405D /* Dictionary+Swifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963DE1AAFBBA800B546F3 /* Dictionary+Swifter.swift */; };
+		24D789C01AD2A05A0066405D /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E01AAFBBA800B546F3 /* JSON.swift */; };
+		24D789C11AD2A05A0066405D /* NSURL+Swifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E11AAFBBA800B546F3 /* NSURL+Swifter.swift */; };
+		24D789C21AD2A05A0066405D /* String+Swifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E21AAFBBA800B546F3 /* String+Swifter.swift */; };
+		24D789C31AD2A0670066405D /* Swifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E51AAFBBA800B546F3 /* Swifter.swift */; };
+		24D789C41AD2A0670066405D /* SwifterAccountsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E61AAFBBA800B546F3 /* SwifterAccountsClient.swift */; };
+		24D789C51AD2A0670066405D /* SwifterAppOnlyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E71AAFBBA800B546F3 /* SwifterAppOnlyClient.swift */; };
+		24D789C61AD2A0670066405D /* SwifterAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E81AAFBBA800B546F3 /* SwifterAuth.swift */; };
+		24D789C71AD2A0670066405D /* SwifterClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963E91AAFBBA800B546F3 /* SwifterClientProtocol.swift */; };
+		24D789C81AD2A0670066405D /* SwifterCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963EA1AAFBBA800B546F3 /* SwifterCredential.swift */; };
+		24D789C91AD2A0670066405D /* SwifterFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963EB1AAFBBA800B546F3 /* SwifterFavorites.swift */; };
+		24D789CA1AD2A0670066405D /* SwifterFollowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963EC1AAFBBA800B546F3 /* SwifterFollowers.swift */; };
+		24D789CB1AD2A0670066405D /* SwifterHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963ED1AAFBBA800B546F3 /* SwifterHelp.swift */; };
+		24D789CC1AD2A0670066405D /* SwifterHTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963EE1AAFBBA800B546F3 /* SwifterHTTPRequest.swift */; };
+		24D789CD1AD2A0670066405D /* SwifterLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963EF1AAFBBA800B546F3 /* SwifterLists.swift */; };
+		24D789CE1AD2A0670066405D /* SwifterMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F01AAFBBA800B546F3 /* SwifterMessages.swift */; };
+		24D789CF1AD2A0670066405D /* SwifterOAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F11AAFBBA800B546F3 /* SwifterOAuthClient.swift */; };
+		24D789D01AD2A0670066405D /* SwifterPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F21AAFBBA800B546F3 /* SwifterPlaces.swift */; };
+		24D789D11AD2A0670066405D /* SwifterSavedSearches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F31AAFBBA800B546F3 /* SwifterSavedSearches.swift */; };
+		24D789D21AD2A0670066405D /* SwifterSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F41AAFBBA800B546F3 /* SwifterSearch.swift */; };
+		24D789D31AD2A0670066405D /* SwifterSpam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F51AAFBBA800B546F3 /* SwifterSpam.swift */; };
+		24D789D41AD2A0670066405D /* SwifterStreaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F61AAFBBA800B546F3 /* SwifterStreaming.swift */; };
+		24D789D51AD2A0670066405D /* SwifterSuggested.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F71AAFBBA800B546F3 /* SwifterSuggested.swift */; };
+		24D789D61AD2A0670066405D /* SwifterTimelines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F81AAFBBA800B546F3 /* SwifterTimelines.swift */; };
+		24D789D71AD2A0670066405D /* SwifterTrends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F91AAFBBA800B546F3 /* SwifterTrends.swift */; };
+		24D789D81AD2A0670066405D /* SwifterTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963FA1AAFBBA800B546F3 /* SwifterTweets.swift */; };
+		24D789D91AD2A0670066405D /* SwifterUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963FB1AAFBBA800B546F3 /* SwifterUsers.swift */; };
 		828963BC1AAF5BFD00B546F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */; };
 		828963BE1AAF5BFD00B546F3 /* FacebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */; };
 		828963C01AAF5BFD00B546F3 /* TwitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */; };
@@ -358,8 +386,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24D789CC1AD2A0670066405D /* SwifterHTTPRequest.swift in Sources */,
+				24D789D41AD2A0670066405D /* SwifterStreaming.swift in Sources */,
+				24D789D61AD2A0670066405D /* SwifterTimelines.swift in Sources */,
+				24D789BF1AD2A04D0066405D /* Dictionary+Swifter.swift in Sources */,
+				24D789D11AD2A0670066405D /* SwifterSavedSearches.swift in Sources */,
+				24D789D01AD2A0670066405D /* SwifterPlaces.swift in Sources */,
+				24D789D81AD2A0670066405D /* SwifterTweets.swift in Sources */,
+				24D789C51AD2A0670066405D /* SwifterAppOnlyClient.swift in Sources */,
+				24D789C11AD2A05A0066405D /* NSURL+Swifter.swift in Sources */,
+				24D789C01AD2A05A0066405D /* JSON.swift in Sources */,
+				24D789C61AD2A0670066405D /* SwifterAuth.swift in Sources */,
+				249FEA2B1AD29EC2009A05AB /* TwitterViewController.swift in Sources */,
+				24D789D31AD2A0670066405D /* SwifterSpam.swift in Sources */,
+				24D789C31AD2A0670066405D /* Swifter.swift in Sources */,
+				24D789CA1AD2A0670066405D /* SwifterFollowers.swift in Sources */,
 				828963D41AAF5BFE00B546F3 /* SocializerTests.swift in Sources */,
+				24D789CE1AD2A0670066405D /* SwifterMessages.swift in Sources */,
+				24D789CB1AD2A0670066405D /* SwifterHelp.swift in Sources */,
 				8289641C1AAFC5BF00B546F3 /* ObjcC.m in Sources */,
+				24D789D71AD2A0670066405D /* SwifterTrends.swift in Sources */,
+				24D789CD1AD2A0670066405D /* SwifterLists.swift in Sources */,
+				24D789C81AD2A0670066405D /* SwifterCredential.swift in Sources */,
+				24D789C91AD2A0670066405D /* SwifterFavorites.swift in Sources */,
+				24D789D21AD2A0670066405D /* SwifterSearch.swift in Sources */,
+				24D789C21AD2A05A0066405D /* String+Swifter.swift in Sources */,
+				24D789D91AD2A0670066405D /* SwifterUsers.swift in Sources */,
+				24D789D51AD2A0670066405D /* SwifterSuggested.swift in Sources */,
+				24D789C41AD2A0670066405D /* SwifterAccountsClient.swift in Sources */,
+				24D789C71AD2A0670066405D /* SwifterClientProtocol.swift in Sources */,
+				24D789CF1AD2A0670066405D /* SwifterOAuthClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +609,7 @@
 				828963D91AAF5BFE00B546F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		828963DA1AAF5BFE00B546F3 /* Build configuration list for PBXNativeTarget "SocializerTests" */ = {
 			isa = XCConfigurationList;
@@ -561,6 +618,7 @@
 				828963DC1AAF5BFE00B546F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

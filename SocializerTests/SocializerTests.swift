@@ -10,7 +10,7 @@ import UIKit
 import XCTest
 
 class SocializerTests: XCTestCase {
-    
+    let parser:Parser = Parser()
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -24,6 +24,9 @@ class SocializerTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         XCTAssert(true, "Pass")
+        let string = "Pascal Hiel |Security|iBeacon|DDIHi Jackie, You might want to take a look at Kontakt.io's cloudbeacon. [http://kontakt.io/introducing-kontakt-io-cloud-beacon/|leo://plh/http%3A*3*3kontakt%2Eio*3introducing-kontakt-io-cloud-beacon*3/JJkQ?_t=tracking_disc] show less"
+        let results =  parser.parseString(string)
+        println(results)
     }
     
     func testPerformanceExample() {

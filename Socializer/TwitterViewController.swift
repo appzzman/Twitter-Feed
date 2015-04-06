@@ -8,6 +8,41 @@
 
 import UIKit
 
+class Parser{
+
+    init(){
+        
+    
+    }
+    
+    func parseString(str:String)->NSArray?{
+    
+        
+//        var str = "Pascal Hiel |Security|iBeacon|DDIHi Jackie, You might want to take a look at Kontakt.io's cloudbeacon. [http://kontakt.io/introducing-kontakt-io-cloud-beacon/|leo://plh/http%3A*3*3kontakt%2Eio*3introducing-kontakt-io-cloud-beacon*3/JJkQ?_t=tracking_disc] show less"
+        
+        var detectorError:NSError?;
+        let detector:NSDataDetector = NSDataDetector(types: NSTextCheckingType.Link.rawValue,error:&detectorError)!
+
+        if let error = detectorError
+        {
+            println(error.debugDescription)
+            return nil
+        }
+        
+        var rawMatches:NSArray = detector.matchesInString(str, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)))
+        var matches:Array = [NSURL]()
+        for match in rawMatches {
+            if let url = match.URL {
+                matches.append(url!)
+            }
+        }
+        
+        
+        return matches
+    }
+}
+
+
 class ImageDownloader: NSOperation {
     let urlString: String
     let filePath:String
@@ -192,31 +227,43 @@ class TweeterManager{
         self.swifter.getSearchTweetsWithQuery(
             searchQuery, geocode: nil, lang: nil, locale: nil, resultType: "recent", count: nil, until: nil, sinceID:minId, maxID: maxId, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
                 
-                var tempMin: UInt64 = 0
-                var tempMax: UInt64 = 0
+        var tempMin: UInt64? = self.minId
+        var tempMax: UInt64? = self.maxId
                 
         for status in statuses! {
             
-                var tweet = JMCTweet()
+            var tweet = JMCTweet()
             
             if let id = status["id_str"].string {
-                tweet.id = id.toInt()
+                tweet.id = UInt64(id.toInt()!)
+                println(tweet.id)
+                
+                if tweet.id > tempMax
+                {
+                    tempMax = tweet.id!
+                    println("MAX ID:\(tweet.id)")
+                }
+                
+                if tweet.id < tempMin
+                {
+                    tempMin = tweet.id!
+                }
             }
             
-                tweet.name = status["user"]["name"].string
-                tweet.profileImageURL = status["user"]["profile_image_url_https"].string
-                tweet.text = status["text"].string
-                if let profile =  tweet.profileImageURL {
+            self.minId = tempMin
+            self.maxId = tempMax
+            
+            tweet.name = status["user"]["name"].string
+            tweet.profileImageURL = status["user"]["profile_image_url_https"].string
+            tweet.text = status["text"].string
+            if let profile =  tweet.profileImageURL {
                    
                   var image = self.networkingManager.getImage(profile)
                     if let img = image {
                         tweet.profileImage = img
                         self.images[tweet.profileImageURL!] = img
                     }
-
-                        
-                        self.networkingManager.getImage(profile)
-                }
+            }
                 self.tweets.append(tweet)
                 self.completionHandler()
         }
@@ -264,7 +311,7 @@ class TweeterManager{
 class JMCTweet{
     var text:String?
     var name:String?
-    var id:Int?
+    var id:UInt64?
     var profileImageURL:String?
     var profileImage:UIImage?
 }
@@ -379,6 +426,10 @@ class TwitterViewController: UITableViewController {
             }
 
         }
+        else{
+                    println("Not found \(found) \(tm.tweets) \(path)")
+        
+        }
     }
 
     
@@ -402,7 +453,6 @@ class TwitterViewController: UITableViewController {
     }
     
     func loadMore(){
-        //reload data here
          tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: false, lowerBond: true)
     
         //self.endRefreshing()
