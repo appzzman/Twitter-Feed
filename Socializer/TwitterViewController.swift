@@ -163,6 +163,7 @@ class TweeterManager{
     
     var completionHandler:(()->Void)! //updating entire table
     var errorHandler:((error:String)->Void)! // errors
+    var downloadHandler:((path:String, image:UIImage)->Void)?
     var cellHandler:((path:String, image:UIImage)->Void)!
     
     var maxId:UInt64?
