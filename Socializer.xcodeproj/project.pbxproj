@@ -35,6 +35,9 @@
 		24D789D71AD2A0670066405D /* SwifterTrends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963F91AAFBBA800B546F3 /* SwifterTrends.swift */; };
 		24D789D81AD2A0670066405D /* SwifterTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963FA1AAFBBA800B546F3 /* SwifterTweets.swift */; };
 		24D789D91AD2A0670066405D /* SwifterUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963FB1AAFBBA800B546F3 /* SwifterUsers.swift */; };
+		24EED8351AD9302F00D3C7C5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8341AD9302F00D3C7C5 /* Parser.swift */; };
+		24EED8361AD9306400D3C7C5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8341AD9302F00D3C7C5 /* Parser.swift */; };
+		24EED8381ADBCB9600D3C7C5 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */; };
 		828963BC1AAF5BFD00B546F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */; };
 		828963BE1AAF5BFD00B546F3 /* FacebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */; };
 		828963C01AAF5BFD00B546F3 /* TwitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */; };
@@ -85,6 +88,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		24EED8341AD9302F00D3C7C5 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		828963B61AAF5BFD00B546F3 /* Socializer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Socializer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		828963BA1AAF5BFD00B546F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -177,7 +182,9 @@
 				828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */,
 				828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */,
 				828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */,
+				24EED8341AD9302F00D3C7C5 /* Parser.swift */,
 				828963C11AAF5BFD00B546F3 /* Main.storyboard */,
+				24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */,
 				828963C41AAF5BFE00B546F3 /* Images.xcassets */,
 				828963C61AAF5BFE00B546F3 /* LaunchScreen.xib */,
 				828963B91AAF5BFD00B546F3 /* Supporting Files */,
@@ -368,6 +375,7 @@
 				8289640C1AAFBBA800B546F3 /* SwifterMessages.swift in Sources */,
 				828964091AAFBBA800B546F3 /* SwifterHelp.swift in Sources */,
 				828963BE1AAF5BFD00B546F3 /* FacebookViewController.swift in Sources */,
+				24EED8351AD9302F00D3C7C5 /* Parser.swift in Sources */,
 				828964151AAFBBA800B546F3 /* SwifterTrends.swift in Sources */,
 				8289640B1AAFBBA800B546F3 /* SwifterLists.swift in Sources */,
 				828964061AAFBBA800B546F3 /* SwifterCredential.swift in Sources */,
@@ -378,6 +386,7 @@
 				828964131AAFBBA800B546F3 /* SwifterSuggested.swift in Sources */,
 				828964021AAFBBA800B546F3 /* SwifterAccountsClient.swift in Sources */,
 				828964051AAFBBA800B546F3 /* SwifterClientProtocol.swift in Sources */,
+				24EED8381ADBCB9600D3C7C5 /* MediaViewController.swift in Sources */,
 				8289640D1AAFBBA800B546F3 /* SwifterOAuthClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -403,6 +412,7 @@
 				24D789CA1AD2A0670066405D /* SwifterFollowers.swift in Sources */,
 				828963D41AAF5BFE00B546F3 /* SocializerTests.swift in Sources */,
 				24D789CE1AD2A0670066405D /* SwifterMessages.swift in Sources */,
+				24EED8361AD9306400D3C7C5 /* Parser.swift in Sources */,
 				24D789CB1AD2A0670066405D /* SwifterHelp.swift in Sources */,
 				8289641C1AAFC5BF00B546F3 /* ObjcC.m in Sources */,
 				24D789D71AD2A0670066405D /* SwifterTrends.swift in Sources */,

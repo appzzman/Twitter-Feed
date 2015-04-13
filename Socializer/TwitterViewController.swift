@@ -7,82 +7,8 @@
 //
 
 import UIKit
+import Darwin
 
-class Parser{
-    let operationQueue:NSOperationQueue = NSOperationQueue() // main operation queue
-    var urlHandler:((messageId:UInt64, urls:[NSURL]? )->Void)?//caled when download is completed
-
-    init(){
-        
-        
-    }
-    
-    func parseMessage(message:String, messageId:UInt64){
-        let operation = MessageParser(messageId: messageId, message: message)
-        self.operationQueue.addOperation(operation)
-        operation.completionBlock = {
-            if let handler = self.urlHandler
-            {
-                handler(messageId: operation.messageId, urls: operation.urls)
-            }
-        }
-    }
-    
-    
-    class func parseStringForURLS(str:String)->[NSURL]?{
-        
-        
-        //        var str = "Pascal Hiel |Security|iBeacon|DDIHi Jackie, You might want to take a look at Kontakt.io's cloudbeacon. [http://kontakt.io/introducing-kontakt-io-cloud-beacon/|leo://plh/http%3A*3*3kontakt%2Eio*3introducing-kontakt-io-cloud-beacon*3/JJkQ?_t=tracking_disc] show less"
-        
-        var detectorError:NSError?;
-        let detector:NSDataDetector = NSDataDetector(types: NSTextCheckingType.Link.rawValue,error:&detectorError)!
-        
-        if let error = detectorError
-        {
-            println(error.debugDescription)
-            return nil
-        }
-        
-        var rawMatches:NSArray = detector.matchesInString(str, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)))
-        var matches = [NSURL]()
-        for match in rawMatches {
-            if let url = match.URL {
-                matches.append(url!)
-            }
-        }
-        
-        
-        return matches
-    }
-    
-    class func parseStringForRegex(str:String)->[NSURL]?{
-        
-        
-        //        var str = "Pascal Hiel |Security|iBeacon|DDIHi Jackie, You might want to take a look at Kontakt.io's cloudbeacon. [http://kontakt.io/introducing-kontakt-io-cloud-beacon/|leo://plh/http%3A*3*3kontakt%2Eio*3introducing-kontakt-io-cloud-beacon*3/JJkQ?_t=tracking_disc] show less"
-        
-        var detectorError:NSError?;
-        let detector:NSDataDetector = NSDataDetector(types: NSTextCheckingType.Link.rawValue,error:&detectorError)!
-        
-        if let error = detectorError
-        {
-            println(error.debugDescription)
-            return nil
-        }
-        
-        var rawMatches:NSArray = detector.matchesInString(str, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)))
-        var matches = [NSURL]()
-        for match in rawMatches {
-            if let url = match.URL {
-                matches.append(url!)
-            }
-        }
-        
-        
-        return matches
-    }
-    
-    
-}
 
 //NSOperation for downloading messages
 class ImageDownloader: NSOperation {
@@ -121,33 +47,6 @@ class ImageDownloader: NSOperation {
     }
 }
 
-//NSOperation for parsing messages
-class MessageParser: NSOperation {
-    let messageId: UInt64
-    let messageText:String
-    var urls:[NSURL]?
-    var userIds:[String]?
-
-    init(messageId: UInt64, message:String) {
-        self.messageId = messageId
-        self.messageText = message
-    }
-    
-    override func main() {
-        
-        if self.cancelled {
-            return
-        }
-            self.urls = Parser.parseStringForURLS(self.messageText)
-        
-        
-        
-        if self.cancelled {
-            return
-        }
-        
-    }
-}
 
 
 
@@ -161,14 +60,14 @@ class Networking{
     func downloadImageForIndexPath(path:String, url:String){
         if let operation = currentDownloads[path] {
             //do nothing and relax. You are downloading the file right now.
-            println("dowloading right now")
+          
             
         }
         else{
             
             let operation = ImageDownloader(urlString: url,filePath:path)
             operation.completionBlock = {
-                println("Completed")
+               
                 self.currentDownloads.removeValueForKey(path)
                 if let handler = self.downloadHandler {
                    handler(url: url, image:operation.image)
@@ -237,8 +136,9 @@ class TweeterManager{
     
     var completionHandler:(()->Void)? //updating entire table
     var errorHandler:((error:String)->Void)? // errors
-    var downloadHandler:((path:String, image:UIImage)->Void)?
-    var cellHandler:((path:String, image:UIImage)->Void)?
+   // var downloadHandler:((path:String, image:UIImage)->Void)?
+    var cellUpdater:((messageIds:[UInt64])->Void)?
+    
     
     var maxId:UInt64?
     var minId:UInt64?
@@ -250,12 +150,58 @@ class TweeterManager{
         swifter = Swifter(consumerKey: "9LUhnfxzbYb7hdaS4bSVZawgZ", consumerSecret: "7XPh2AUJTxEWQRO4SMrTNDsvPZitHXKPlDhzZ9LKhsFsiCC3Ne", appOnly: true)
         networkingManager = Networking()
         parser = Parser()
- 
+        
+        /*Called when parser finishes parsing the message */
+        parser.urlHandler = { (messageId:UInt64, urls:[NSURL]? )->Void in
+            
+            
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                // do some task
+                let ids = self.tweets.map({$0.id})
+                if let handler = self.cellUpdater {
+                    for i in 0...self.tweets.count-1 {
+                        let tweet = self.tweets[i]
+
+                        if self.tweets[i].id! == messageId {
+                            self.tweets[i].urls = urls
+                            if let updater = self.cellUpdater{
+                                updater(messageIds: [self.tweets[i].id!])
+                            }
+                        }
+                      
+                    }
+                }
+
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    // update some UI
+                   // self.tableView.reloadRowsAtIndexPaths(indexes, withRowAnimation: UITableViewRowAnimation.Automatic)
+                   // println(messageId)
+                   
+                   // println(ids)
+                    
+                
+                
+                }
+            }
+        }
+
         self.networkingManager.downloadHandler = {(path:String, img:UIImage?)->Void in
-            println("Updated Image")
+           
             self.images[path] = img
-            if let handler = self.cellHandler {
-                handler(path: path, image:img!)
+            if let handler = self.cellUpdater {
+                var found = [UInt64]()
+                for i in 0...self.tweets.count {
+                    if self.tweets[i].profileImageURL == path {
+                        found.append(self.tweets[i].id!)
+                    }
+                    break;
+                }
+
+                
+                handler(messageIds: found)
+                
             }
         }
         authenticateApp()
@@ -263,13 +209,12 @@ class TweeterManager{
     
     
     //get all
-    func getTweetsWithHandler(completionHandler:()->Void, errorHandler:(error:String)->Void, cellHandler:(path:String, image:UIImage?)->Void, upperBond:Bool, lowerBond:Bool ){
+    func getTweetsWithHandler(completionHandler:()->Void, errorHandler:(error:String)->Void, cellHandler:(messagesIds:[UInt64])->Void, upperBond:Bool, lowerBond:Bool ){
         
-        
+        //update the handlers
         self.completionHandler = completionHandler // entire table
         self.errorHandler = errorHandler //error handler
-        self.cellHandler = cellHandler //
-        networkingManager.downloadHandler = cellHandler
+        self.cellUpdater = cellHandler
 
         
         if (upperBond == true) {
@@ -334,20 +279,28 @@ class TweeterManager{
                         
                         for status in statuses! {
                             
-                            var tweet = JMCTweet()
+                           var tweet = JMCTweet()
                            if  let id = status["id_str"].string
                            {
-                              tweet.id = UInt64(id.toInt()!)
-                           }
+                                let longid =  strtoull(id, nil, 10)
+                                tweet.id = longid
+                          
+                            
+                            }
 
                             tweet.name = status["user"]["name"].string
                             tweet.profileImageURL = status["user"]["profile_image_url_https"].string
-
+                            if tweet.name == "Brajie" {
+                                println(tweet.profileImageURL)
+                            }
+                            
+                            
                             //parse message
                             if let txt = status["text"].string {
                                 tweet.text = txt
                                 if let id = status["id_str"].string {
-                                      self.parser.parseMessage(txt, messageId: UInt64(id.toInt()!))
+                                    let longid =  strtoull(id, nil, 10)
+                                    self.parser.parseMessage(txt, messageId: longid)
                                 }
                             }
 
@@ -358,18 +311,20 @@ class TweeterManager{
                                     tweet.profileImage = img
                                     self.images[tweet.profileImageURL!] = img
                                     //reload cell
-                                    
-                                    
+                                    if let handler = self.cellUpdater {
+                                       handler(messageIds:[tweet.id!])
+                                    }
                                     
                                 }
                             }
                             self.tweets.append(tweet)
-                            //reload table
-                            if let handler = self.completionHandler {
-                                handler()
-                            }
-                            
                         }
+
+                        //reload table
+                        if let handler = self.completionHandler {
+                            handler()
+                        }
+                        
                         
                     }
                 }
@@ -377,9 +332,9 @@ class TweeterManager{
                     println("Error:\(error)")
                     self.tweets.removeAll(keepCapacity: false)
                     var json = JSONValue(error.debugDescription)
-                    var tweet = JMCTweet()
-                    tweet.text = json.string
-                    self.tweets.append(tweet)
+//                    var tweet = JMCTweet()
+//                    tweet.text = json.string
+//                    self.tweets.append(tweet)
                     ///WARNING:
                     if let handler = self.completionHandler {
                         handler()
@@ -419,13 +374,23 @@ class TweeterManager{
         var text:String?
         var name:String?
         var id:UInt64?
+        var stringId:UInt64?
         var profileImageURL:String?
         var profileImage:UIImage?
+        var urls:[NSURL]?
+        var messageImage:[NSURL]?
+        var mentions:[String]?
+        
     }
     
     
-    
-    class TweetCell: UITableViewCell {
+    class ImageCell {
+
+
+    }
+
+
+    class BasicCell: UITableViewCell {
         
         @IBOutlet weak var titleLabel: UILabel!
         @IBOutlet var textView: UITextView!
@@ -471,7 +436,7 @@ class TweeterManager{
         }
     }
     
-    extension TweetCell: UITextViewDelegate {
+    extension BasicCell: UITextViewDelegate {
         func textViewDidChange(textView: UITextView!) {
             
             // Only way found to make table view update layout of cell
@@ -511,33 +476,36 @@ class TweeterManager{
             endRefreshing()
         }
         
-        func updateCell(path:String, image:UIImage?)->Void{
-            //get cell for the given value
-            // let filteredArray = tm.tweets.filter({$0.profileImageURL == path})
-            var found: Int?
-            for i in 0...tm.tweets.count {
-                if tm.tweets[i].profileImageURL == path {
-                    found = i
+        func updateCells(messageIds:[UInt64]?)
+        {
+            
+            //search for messages with id using quadratic function! bad.
+            var indexes = [NSIndexPath]()
+            if let messages = messageIds  {
+                if messages.count == 0 {return}
+                if tm.tweets.count == 0 {return}
+           
+                for i in 0...tm.tweets.count-1 {
+                    for j in 0 ... messages.count-1{
+                    if tm.tweets[i].id == messages[j] {
+                        //assuming this is only one section
+                            indexes.append(NSIndexPath(forRow: i, inSection: 0))
+                        }
+                    }
                 }
-                break;
             }
-            if let f = found{
+            
                 let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
                 dispatch_async(dispatch_get_global_queue(priority, 0)) {
                     // do some task
                     dispatch_async(dispatch_get_main_queue()) {
                         // update some UI
-                        println("This is run on the main queue, after the previous block")
-                        var indexPath = NSIndexPath(forRow: f, inSection: 0)
-                        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                        self.tableView.reloadRowsAtIndexPaths(indexes, withRowAnimation: UITableViewRowAnimation.Automatic)
                     }
                 }
                 
-            }
-            else{
-                println("Not found \(found) \(tm.tweets) \(path)")
-                
-            }
+            
+        
         }
         
         
@@ -556,12 +524,12 @@ class TweeterManager{
             tableView.rowHeight = UITableViewAutomaticDimension
             tableView.estimatedRowHeight = 44.0
             
-            tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: false, lowerBond: false)
+            tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: false, lowerBond: false)
             
         }
         
         func loadMore(){
-            tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: false, lowerBond: true)
+            tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: false, lowerBond: true)
             
             //self.endRefreshing()
             
@@ -591,10 +559,21 @@ class TweeterManager{
         override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             ///let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "tweetCell") as TweetCell
             let tweet = tm.tweets[indexPath.row]
-            var cell = tableView.dequeueReusableCellWithIdentifier("tweetCell") as TweetCell
+            var cell = tableView.dequeueReusableCellWithIdentifier("tweetCell") as BasicCell
+            
+            if let attachments = tweet.urls
+            {
+                cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+            }
+            else{
+                cell.accessoryType = UITableViewCellAccessoryType.None
+
+            }
+            
             
             cell.titleLabel.text = tweet.name
             cell.textView.text = tweet.text
+            cell.textView.userInteractionEnabled = false
             if let t = tweet.profileImageURL {
                 
                 cell.cellImageView.image = tm.images[tweet.profileImageURL!]
@@ -603,7 +582,7 @@ class TweeterManager{
             
             if (indexPath.row ==  tm.tweets.count - 1)
             {
-                tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCell, upperBond: true, lowerBond: false)
+                tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
             }
             
             

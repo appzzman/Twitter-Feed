@@ -24,9 +24,14 @@ class SocializerTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         XCTAssert(true, "Pass")
-        let string = "Pascal Hiel |Security|iBeacon|DDIHi Jackie, You might want to take a look at Kontakt.io's cloudbeacon. [http://kontakt.io/introducing-kontakt-io-cloud-beacon/|leo://plh/http%3A*3*3kontakt%2Eio*3introducing-kontakt-io-cloud-beacon*3/JJkQ?_t=tracking_disc] show less"
-        let results =  parser.parseString(string)
-        println(results)
+        let string = "RT @alvarodias_: Projeto de Alvaro Dias veda retirada de assinatura em pedido de CPI após leitura http://t.co/U3qG21PU1X via @twitterapi"
+        var parser = Parser()
+         let results = parser.parseStringForURLS(string)
+          println(results)
+        
+        
+        //        let results =  Parser.parseString(string)
+ //       println(results)
     }
     
     func testPerformanceExample() {
