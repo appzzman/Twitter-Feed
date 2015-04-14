@@ -7,120 +7,7 @@
 //
 
 import UIKit
-import Darwin
-
-
-//NSOperation for downloading messages
-class ImageDownloader: NSOperation {
-    let urlString: String
-    let filePath:String
-    var image:UIImage?
-    
-    init(urlString: String, filePath:String) {
-        self.urlString = urlString
-        self.filePath = filePath
-    }
-    
-    override func main() {
-        
-        if self.cancelled {
-            return
-        }
-        if let urlAddres = NSURL(string: urlString)
-        {
-            let imageData = NSData(contentsOfURL:urlAddres)
-            if(imageData?.length>0){
-                //save it to the drive
-                let fileManager = NSFileManager.defaultManager()
-                if let data = imageData {
-                    data.writeToFile(self.filePath, atomically: true)
-                    self.image = UIImage(data: data)
-                    
-                }
-            }
-            
-        }
-        if self.cancelled {
-            return
-        }
-        
-    }
-}
-
-
-
-
-class Networking{
-    
-    
-    var currentDownloads :[String:NSOperation] = [String:NSOperation]()
-    var downloadHandler:((url:String, image:UIImage? )->Void)?//caled when download is completed
-    let operationQueue:NSOperationQueue = NSOperationQueue() // main operation queue
-    
-    func downloadImageForIndexPath(path:String, url:String){
-        if let operation = currentDownloads[path] {
-            //do nothing and relax. You are downloading the file right now.
-          
-            
-        }
-        else{
-            
-            let operation = ImageDownloader(urlString: url,filePath:path)
-            operation.completionBlock = {
-               
-                self.currentDownloads.removeValueForKey(path)
-                if let handler = self.downloadHandler {
-                   handler(url: url, image:operation.image)
-                    
-                }
-            }
-            
-            currentDownloads[path] = operation
-            self.operationQueue.addOperation(operation)
-            
-        }
-    }
-    
-    
-    func getImage(url:String)->UIImage?
-    {
-        
-        let fileManager = NSFileManager.defaultManager()
-        var path: String = getPath(url)
-        
-        if(fileManager.fileExistsAtPath(path))
-        {
-            return UIImage(contentsOfFile: path)
-        }
-        else{
-            downloadImageForIndexPath(path,url:url)
-            return nil;
-        }
-        
-    }
-    
-    func doesItExist(url:String)->Bool{
-        let fileManager = NSFileManager.defaultManager()
-        var path: String = getPath(url)
-        
-        if(fileManager.fileExistsAtPath(path))
-        {
-            return false;
-        }
-        else{
-            return true;
-        }
-        
-    }
-    
-    
-    func getPath(url:String)->String{
-        let tempDirectoryTemplate = NSTemporaryDirectory()
-        return tempDirectoryTemplate.stringByAppendingPathComponent("\(url.hash)")
-        
-    }
-}
-
+//import Darwin
 
 
 
@@ -131,13 +18,14 @@ class TweeterManager{
     var parser:Parser
     
     var swifter: Swifter
-    var searchQuery = "itenwired"
+    var searchQuery = "tripadvisor"
     var count = 50
     
     var completionHandler:(()->Void)? //updating entire table
     var errorHandler:((error:String)->Void)? // errors
    // var downloadHandler:((path:String, image:UIImage)->Void)?
     var cellUpdater:((messageIds:[UInt64])->Void)?
+    var tweetsIds = [UInt64:Bool]()
     
     
     var maxId:UInt64?
@@ -157,14 +45,13 @@ class TweeterManager{
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
             dispatch_async(dispatch_get_global_queue(priority, 0)) {
                 // do some task
-                let ids = self.tweets.map({$0.id})
+              //  let ids = self.tweets.map({$0.id})
                 if let handler = self.cellUpdater {
-                    for i in 0...self.tweets.count-1 {
-                        let tweet = self.tweets[i]
-                        if self.tweets[i].id! == messageId {
-                            self.tweets[i].urls = urls
+                    for tweet in self.tweets {
+                         if tweet.id! == messageId {
+                            tweet.urls = urls
                             if let updater = self.cellUpdater{
-                                updater(messageIds: [self.tweets[i].id!])
+                                updater(messageIds: [tweet.id!])
                             }
                         }
                     }
@@ -172,18 +59,18 @@ class TweeterManager{
             }
         }
 
-        self.networkingManager.downloadHandler = {(path:String, img:UIImage?)->Void in
+        self.networkingManager.downloadHandler = {(path:String, img:UIImage?, keyPath:String)->Void in
            
             self.images[path] = img
             if let handler = self.cellUpdater {
                 var found = [UInt64]()
-                for i in 0...self.tweets.count {
-                    if self.tweets[i].profileImageURL == path {
-                        found.append(self.tweets[i].id!)
+                for tweet in self.tweets {
+                    if tweet.valueForKey(keyPath) as? String == path {
+                        found.append(tweet.id!)
+                        
+                        break;
                     }
-                    break;
                 }
-
                 
                 handler(messageIds: found)
                 
@@ -203,15 +90,16 @@ class TweeterManager{
 
         
         if (upperBond == true) {
-            if let mid = self.maxId {
-                self.getTweetsWithSearchQuery(self.searchQuery,maxId: String(mid), minId: nil)
+            
+            if let mid = self.minId {
+                self.getTweetsWithSearchQuery(self.searchQuery,maxId: String(mid-1), minId: nil)
             }
             else{
                 self.getTweetsWithSearchQuery(self.searchQuery,maxId: nil,minId: nil)
             }
         }
         else if lowerBond == true {
-            if let xId = self.minId
+            if let xId = self.maxId
             {
                 self.getTweetsWithSearchQuery(self.searchQuery , maxId: nil, minId: String(xId))
             }
@@ -225,102 +113,93 @@ class TweeterManager{
         }
     }
     
-    func updateBoundaries(statuses:[JSONValue], min:UInt64?, max:UInt64?){
-        var tempMin: UInt64? = min
-        var tempMax: UInt64? = max
+
+    //Keeps track on
+    func updateBoundaries(statuses:[JSONValue]){
+
+ 
         for status in statuses {
-            
             var tweet = JMCTweet()
             
             if let id = status["id_str"].string {
-               
-                
-                if tweet.id > tempMax
-                {
-                    tempMax = tweet.id!
-                    
+                 let longid =  strtoull(id, nil, 10)
+                if self.minId  == nil {
+                    self.minId = longid
+                }
+                if self.maxId  == nil {
+                    self.maxId = longid
                 }
                 
-                if tweet.id < tempMin
+                if longid > self.maxId
                 {
-                    tempMin = tweet.id!
+                    self.maxId = longid
+                }
+                
+                if longid < self.minId
+                {
+                        self.minId = longid
                 }
             }
-            
-            self.minId = tempMin
-            self.maxId = tempMax
             
         }
     }
     
         func getTweetsWithSearchQuery(searchQuery:String, maxId:String?, minId:String?){
             
-            
+
             self.swifter.getSearchTweetsWithQuery(
-                searchQuery, geocode: nil, lang: nil, locale: nil, resultType: "recent", count: nil, until: nil, sinceID:minId, maxID: maxId, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
+                searchQuery, geocode: nil, lang: nil, locale: nil, resultType: nil, count: count, until: nil, sinceID:minId, maxID: maxId, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
                     
                     if let stats = statuses {
-                        self.updateBoundaries(stats, min: self.minId, max: self.maxId)
                         
+                        self.updateBoundaries(stats)
+
                         for status in statuses! {
                             
                            var tweet = JMCTweet()
-                           if  let id = status["id_str"].string
-                           {
-                                let longid =  strtoull(id, nil, 10)
-                                tweet.id = longid
-                          
-                            
-                            }
-
-                            tweet.name = status["user"]["name"].string
-                            tweet.profileImageURL = status["user"]["profile_image_url_https"].string
-                            if tweet.name == "Brajie" {
-                                println(tweet.profileImageURL)
-                            }
-                            
-                            
-                            //parse message
-                            if let txt = status["text"].string {
-                                tweet.text = txt
-                                if let id = status["id_str"].string {
-                                    let longid =  strtoull(id, nil, 10)
-                                    self.parser.parseMessage(txt, messageId: longid)
-                                }
-                            }
-
-                            if let profile =  tweet.profileImageURL {
-                                
-                                var image = self.networkingManager.getImage(profile)
-                                if let img = image {
-                                    tweet.profileImage = img
-                                    self.images[tweet.profileImageURL!] = img
-                                    //reload cell
-                                    if let handler = self.cellUpdater {
-                                       handler(messageIds:[tweet.id!])
+                           tweet.updateWithData(status)
+                            if (self.tweetsIds [tweet.id!] == nil)  {
+                                if let profile =  tweet.profileImageURL {
+                                    var image = self.networkingManager.getImage(profile,keyPath:"profileImage")
+                                    if let img = image {
+                                        tweet.profileImage = img
+                                        self.images[tweet.profileImageURL!] = img
+                                        //reload cell
                                     }
-                                    
                                 }
+                                
+                                if let media_url = tweet.messageImageURL
+                                {
+                                    var image = self.networkingManager.getImage(media_url, keyPath:"messageImage")
+                                    if let img = image {
+                                        tweet.messageImage = img
+                                        self.images[tweet.messageImageURL!] = img
+                                    }
+                                }
+
+                                if tweet.id != nil && tweet.text != nil {
+                                    self.parser.parseMessage(tweet.text!, messageId: tweet.id!)
+                                }
+
+                                
+                                
+                                self.tweets.append(tweet)
+                                self.tweetsIds[tweet.id!] = true
+                            
                             }
-                            self.tweets.append(tweet)
                         }
 
                         //reload table
                         if let handler = self.completionHandler {
                             handler()
                         }
-                        
-                        
                     }
                 }
                 , failure: { (error) -> Void in
                     println("Error:\(error)")
                     self.tweets.removeAll(keepCapacity: false)
                     var json = JSONValue(error.debugDescription)
-//                    var tweet = JMCTweet()
-//                    tweet.text = json.string
-//                    self.tweets.append(tweet)
-                    ///WARNING:
+
                     if let handler = self.completionHandler {
                         handler()
                     }
@@ -333,8 +212,6 @@ class TweeterManager{
             self.swifter.authorizeAppOnlyWithSuccess({ (accessToken, response) -> Void in
                 
                 self.authorized = true
-                
-                
                 }, failure: { (error) -> Void in
                     self.authorized = false
                     println(error)
@@ -355,20 +232,54 @@ class TweeterManager{
     }
     
     
-    class JMCTweet{
+class JMCTweet : NSObject{
         var text:String?
         var name:String?
         var id:UInt64?
-        var stringId:UInt64?
+        var stringId:String?
         var profileImageURL:String?
         var profileImage:UIImage?
         var urls:[NSURL]?
-        var messageImage:[NSURL]?
+        var messageImageURL:String?
+        var messageImage:UIImage?
         var mentions:[String]?
         var date:String?
+        
+        func updateWithData(data:JSONValue){
+            
+            if  let id = data["id_str"].string
+            {
+                let longid =  strtoull(id, nil, 10)
+                self.id = longid
+                self.stringId = data["id_str"].string
+            }
+            
+            var url =  data["entities"]["media_url"]
+            if let medias = data["entities"]["media"].array
+            {
+                for i in 0...medias.count-1
+                {
+                    if let url = medias[i]["media_url"].string {
+                        self.messageImageURL = url
+                    }
+                }
+            }
+            
+            self.name = data["user"]["name"].string
+            self.profileImageURL = data["user"]["profile_image_url_https"].string
+            var indate = data["created_at"].string!
+            self.date = Parser.parseTwitterDate(indate, outputDateFormat: nil)
+            
+            
+            
+            //parse message
+            if let txt = data["text"].string {
+                self.text = txt
+            }
+        }
     }
-    
-    
+
+
     class ImageCell:BasicCell {
         @IBOutlet weak var imageAttachment: UIImageView!
         
@@ -381,6 +292,7 @@ class TweeterManager{
         @IBOutlet weak var titleLabel: UILabel!
         @IBOutlet var textView: UITextView!
         
+        @IBOutlet weak var dateLabel: UILabel!
         @IBOutlet weak var cellImageView: UIImageView!
         
         override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
@@ -512,6 +424,10 @@ class TweeterManager{
         
         override func viewDidLoad() {
             super.viewDidLoad()
+            
+            self.title = "Twitter"
+            self.navigationController?.title = "Twitter"
+            
             // Do any additional setup after loading the view, typically from a nib.
             self.refreshControl = UIRefreshControl()
             self.refreshControl!.tintColor = UIColor.darkGrayColor()
@@ -520,7 +436,8 @@ class TweeterManager{
             
             tableView.rowHeight = UITableViewAutomaticDimension
             tableView.estimatedRowHeight = 44.0
-            
+            tableView.reloadData()
+
             tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: false, lowerBond: false)
             
         }
@@ -556,7 +473,17 @@ class TweeterManager{
         override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             ///let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "tweetCell") as TweetCell
             let tweet = tm.tweets[indexPath.row]
-            var cell = tableView.dequeueReusableCellWithIdentifier("tweetCell") as BasicCell
+            //get image cell
+            var cell:BasicCell
+
+            if let img = tweet.messageImageURL {
+                cell = tableView.dequeueReusableCellWithIdentifier("imageCell") as ImageCell
+                cell.imageAttachment.image = tm.images[tweet.messageImageURL!]
+            }
+            else{
+               cell = tableView.dequeueReusableCellWithIdentifier("basicCell") as BasicCell
+            }
+
             
             if let attachments = tweet.urls
             {
@@ -582,6 +509,8 @@ class TweeterManager{
             cell.titleLabel.text = tweet.name
             cell.textView.text = tweet.text
             cell.textView.userInteractionEnabled = false
+            cell.dateLabel.text = tweet.date
+
             if let t = tweet.profileImageURL {
                 
                 cell.cellImageView.image = tm.images[tweet.profileImageURL!]
@@ -591,6 +520,9 @@ class TweeterManager{
             if (indexPath.row ==  tm.tweets.count - 1)
             {
                 tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
+                println("reload\(indexPath.row)")
+                println("reload\(tm.tweets.count)")
+            
             }
             
             

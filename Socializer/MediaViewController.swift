@@ -21,7 +21,7 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
         if let urls = self.urls {
             var vcs = self.prepareContent(urls)
             if vcs?.count > 0{
-                self.pageViewController!.setViewControllers(vcs!, direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: { (finished) -> Void in
+                self.pageViewController!.setViewControllers([vcs![0]], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: { (finished) -> Void in
                     println("finished")
                 
             })

@@ -113,5 +113,19 @@ class Parser{
         return matches
     }
     
+    class func parseTwitterDate(twitterDate:String, outputDateFormat:String?)->String?{
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        
+        var indate = formatter.dateFromString(twitterDate)
+        var outputFormatter = NSDateFormatter()
+        outputFormatter.dateFormat = "hh:mm a dd:MM:yy"
+        var outputDate:String?
+        if let d = indate {
+            outputDate = outputFormatter.stringFromDate(d)
+        }
+        return outputDate;
+    }
+    
     
 }
