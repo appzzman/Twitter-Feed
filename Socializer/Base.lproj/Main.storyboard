@@ -66,7 +66,7 @@
                                     <outlet property="cellImageView" destination="fcc-Qu-0ZR" id="DbS-Sn-h1W"/>
                                     <outlet property="textView" destination="p8f-DK-Zvb" id="a7k-rs-SJz"/>
                                     <outlet property="titleLabel" destination="ina-5e-YcH" id="rAf-bw-RHW"/>
-                                    <segue destination="EEl-VO-cOW" kind="show" id="9ix-mx-Apw"/>
+                                    <segue destination="EEl-VO-cOW" kind="show" identifier="showMedia" id="9ix-mx-Apw"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="200" id="0vN-NS-EI8" customClass="ImageCell" customModule="Socializer" customModuleProvider="target">
@@ -121,6 +121,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cellImageView" destination="zg3-if-iTx" id="uqL-TX-3Lu"/>
+                                    <outlet property="imageAttachment" destination="Tkz-7M-E5f" id="ogp-G8-m8b"/>
                                     <outlet property="textView" destination="Bmn-yB-XSR" id="0Ph-xo-HuR"/>
                                     <outlet property="titleLabel" destination="sVY-pn-G05" id="A9x-ts-Cft"/>
                                 </connections>
@@ -249,12 +250,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GDC-MW-aid" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="325" y="874"/>
+            <point key="canvasLocation" x="550" y="1483"/>
         </scene>
-        <!--View Controller-->
+        <!--Media Content Controller-->
         <scene sceneID="vDv-YF-N5N">
             <objects>
-                <viewController id="O5L-Dt-rrc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MediaContentController" id="O5L-Dt-rrc" customClass="MediaContentController" customModule="Socializer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ngx-hc-o9M"/>
                         <viewControllerLayoutGuide type="bottom" id="uHG-Oi-f3c"/>
@@ -270,10 +271,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="OQW-XD-GSk" id="3IK-0R-gZi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lev-xf-hfi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="361" y="1273"/>
+            <point key="canvasLocation" x="-116" y="1639"/>
         </scene>
     </scenes>
     <resources>

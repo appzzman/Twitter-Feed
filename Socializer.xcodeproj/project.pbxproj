@@ -38,6 +38,7 @@
 		24EED8351AD9302F00D3C7C5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8341AD9302F00D3C7C5 /* Parser.swift */; };
 		24EED8361AD9306400D3C7C5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8341AD9302F00D3C7C5 /* Parser.swift */; };
 		24EED8381ADBCB9600D3C7C5 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */; };
+		24EED8391ADCC19D00D3C7C5 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */; };
 		828963BC1AAF5BFD00B546F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */; };
 		828963BE1AAF5BFD00B546F3 /* FacebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */; };
 		828963C01AAF5BFD00B546F3 /* TwitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */; };
@@ -414,6 +415,7 @@
 				24D789CE1AD2A0670066405D /* SwifterMessages.swift in Sources */,
 				24EED8361AD9306400D3C7C5 /* Parser.swift in Sources */,
 				24D789CB1AD2A0670066405D /* SwifterHelp.swift in Sources */,
+				24EED8391ADCC19D00D3C7C5 /* MediaViewController.swift in Sources */,
 				8289641C1AAFC5BF00B546F3 /* ObjcC.m in Sources */,
 				24D789D71AD2A0670066405D /* SwifterTrends.swift in Sources */,
 				24D789CD1AD2A0670066405D /* SwifterLists.swift in Sources */,

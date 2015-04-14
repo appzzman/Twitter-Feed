@@ -131,7 +131,7 @@ class TweeterManager{
     var parser:Parser
     
     var swifter: Swifter
-    var searchQuery = "twitterAPI"
+    var searchQuery = "itenwired"
     var count = 50
     
     var completionHandler:(()->Void)? //updating entire table
@@ -154,7 +154,6 @@ class TweeterManager{
         /*Called when parser finishes parsing the message */
         parser.urlHandler = { (messageId:UInt64, urls:[NSURL]? )->Void in
             
-            
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
             dispatch_async(dispatch_get_global_queue(priority, 0)) {
                 // do some task
@@ -162,27 +161,13 @@ class TweeterManager{
                 if let handler = self.cellUpdater {
                     for i in 0...self.tweets.count-1 {
                         let tweet = self.tweets[i]
-
                         if self.tweets[i].id! == messageId {
                             self.tweets[i].urls = urls
                             if let updater = self.cellUpdater{
                                 updater(messageIds: [self.tweets[i].id!])
                             }
                         }
-                      
                     }
-                }
-
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    // update some UI
-                   // self.tableView.reloadRowsAtIndexPaths(indexes, withRowAnimation: UITableViewRowAnimation.Automatic)
-                   // println(messageId)
-                   
-                   // println(ids)
-                    
-                
-                
                 }
             }
         }
@@ -380,12 +365,13 @@ class TweeterManager{
         var urls:[NSURL]?
         var messageImage:[NSURL]?
         var mentions:[String]?
-        
+        var date:String?
     }
     
     
-    class ImageCell {
-
+    class ImageCell:BasicCell {
+        @IBOutlet weak var imageAttachment: UIImageView!
+        
 
     }
 
@@ -503,14 +489,25 @@ class TweeterManager{
                         self.tableView.reloadRowsAtIndexPaths(indexes, withRowAnimation: UITableViewRowAnimation.Automatic)
                     }
                 }
-                
-            
-        
         }
         
         
         func errorHandler(error:String)->Void{
             endRefreshing()
+        }
+        
+        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            if(segue.identifier == "showMedia"){
+                if let k  = sender as? UITableViewCell
+                {
+                    var vc = segue.destinationViewController as MediaViewController
+                    let indexPath = self.tableView.indexPathForCell(k)
+                    let tweet = self.tm.tweets[indexPath!.row]
+                    vc.urls = tweet.urls
+                    
+                    
+                }
+            }
         }
         
         override func viewDidLoad() {
@@ -563,11 +560,22 @@ class TweeterManager{
             
             if let attachments = tweet.urls
             {
-                cell.accessoryType = UITableViewCellAccessoryType.DetailButton
-            }
+                if attachments.count > 0 {
+                    cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                    cell.userInteractionEnabled = true
+                    cell.selectionStyle = UITableViewCellSelectionStyle.Default
+
+                }
+                else{
+                    cell.accessoryType = UITableViewCellAccessoryType.None
+                    cell.userInteractionEnabled = false
+                    cell.selectionStyle = UITableViewCellSelectionStyle.None
+                    }
+                }
             else{
                 cell.accessoryType = UITableViewCellAccessoryType.None
-
+                cell.userInteractionEnabled = false
+                cell.selectionStyle = UITableViewCellSelectionStyle.None
             }
             
             

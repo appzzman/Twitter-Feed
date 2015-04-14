@@ -17,13 +17,34 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
 
     override func viewDidLoad() {
         self.pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+   
+        if let urls = self.urls {
+            var vcs = self.prepareContent(urls)
+            if vcs?.count > 0{
+                self.pageViewController!.setViewControllers(vcs!, direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: { (finished) -> Void in
+                    println("finished")
+                
+            })
+          }
+        }
+        
+        addChildViewController(pageViewController!)
+        self.view.addSubview(self.pageViewController!.view)
+        pageViewController!.didMoveToParentViewController(self)
         
     }
     
     func prepareContent(urls:[NSURL])->[UIViewController]?{
       //get vc by id otherwise we would have to create programmatically
-        return nil
+        var vcs = [MediaContentController]()
+        for url in urls {
         
+            var vc  =  self.storyboard!.instantiateViewControllerWithIdentifier("MediaContentController") as MediaContentController
+            vc.url = url
+            vcs.append(vc)
+        }
+            
+        return vcs
     }
     
     
@@ -34,12 +55,36 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?{
         return nil
     }
-    
-    
 }
 
 
-class ContentViewController{
+class MediaContentController:UIViewController, UIWebViewDelegate{
+    var url:NSURL?
+    @IBOutlet weak var webView: UIWebView!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let u = self.url {
+            let httprequest = NSURLRequest(URL: u)
+            self.webView.loadRequest(httprequest)
+            self.webView.scalesPageToFit = true
+            self.webView.scrollView.scrollEnabled = true
+            self.webView.delegate = self
+            
+        }
+    }
+    
+    func webViewDidStartLoad(webView: UIWebView){
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView){
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+  
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError)
+    {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
 
 }
