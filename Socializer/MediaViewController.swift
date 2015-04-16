@@ -13,6 +13,7 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
 
     var urls:[NSURL]?
     var pageViewController:UIPageViewController?
+    
     //var viewControllers = [UIViewController]()
 
     override func viewDidLoad() {
@@ -37,18 +38,35 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
     func prepareContent(urls:[NSURL])->[UIViewController]?{
       //get vc by id otherwise we would have to create programmatically
         var vcs = [MediaContentController]()
+        var index = 0 
         for url in urls {
         
             var vc  =  self.storyboard!.instantiateViewControllerWithIdentifier("MediaContentController") as MediaContentController
             vc.url = url
+            vc.index = index
+            index++
             vcs.append(vc)
         }
             
         return vcs
     }
     
+    func indexOfViewController(viewController: MediaContentController) -> Int {
+        
+        if let dataObject: AnyObject = viewController.index {
+            return pageContent.indexOfObject(dataObject)
+        } else {
+            return NSNotFound
+        }
+    }
+    
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?{
+        
+        var index = indexOfViewController(viewController
+            as MediaContentController)
+        
+        
         return nil
     }
     
@@ -60,6 +78,7 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
 
 class MediaContentController:UIViewController, UIWebViewDelegate{
     var url:NSURL?
+    var index: NSInteger = 0
     @IBOutlet weak var webView: UIWebView!
     
     override func viewDidLoad() {

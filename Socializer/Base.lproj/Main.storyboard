@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pj1-of-hqM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pj1-of-hqM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -21,7 +21,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p8f-DK-Zvb">
-                                            <rect key="frame" x="65" y="14.5" width="494" height="30.5"/>
+                                            <rect key="frame" x="65" y="15" width="494" height="30"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -35,7 +35,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ina-5e-YcH">
-                                            <rect key="frame" x="72" y="0.0" width="150" height="14.5"/>
+                                            <rect key="frame" x="72" y="0.0" width="150" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="N6I-7m-Uu9"/>
                                             </constraints>
@@ -44,7 +44,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E84-V8-qXS">
-                                            <rect key="frame" x="232" y="0.0" width="150" height="14.5"/>
+                                            <rect key="frame" x="232" y="0.0" width="150" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="UYk-gD-453"/>
                                             </constraints>
@@ -56,11 +56,9 @@
                                     <constraints>
                                         <constraint firstItem="E84-V8-qXS" firstAttribute="width" secondItem="ina-5e-YcH" secondAttribute="width" id="1Qz-LF-t0l"/>
                                         <constraint firstItem="ina-5e-YcH" firstAttribute="leading" secondItem="fcc-Qu-0ZR" secondAttribute="trailing" constant="20" id="5Yc-Ri-Ejq"/>
-                                        <constraint firstItem="ina-5e-YcH" firstAttribute="centerX" secondItem="p8f-DK-Zvb" secondAttribute="centerX" id="AJd-e0-Ysc"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="p8f-DK-Zvb" secondAttribute="trailing" priority="950" id="Apx-xo-KBW"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="p8f-DK-Zvb" secondAttribute="bottom" constant="-10" id="Emb-WD-hAt"/>
                                         <constraint firstItem="p8f-DK-Zvb" firstAttribute="leading" secondItem="fcc-Qu-0ZR" secondAttribute="trailing" constant="13" id="I3u-vP-wlA"/>
-                                        <constraint firstItem="p8f-DK-Zvb" firstAttribute="top" secondItem="8nY-Ym-ZkO" secondAttribute="topMargin" constant="11" id="KBT-aL-zwb"/>
                                         <constraint firstItem="p8f-DK-Zvb" firstAttribute="top" secondItem="ina-5e-YcH" secondAttribute="bottom" id="OS0-W1-rab"/>
                                         <constraint firstItem="fcc-Qu-0ZR" firstAttribute="leading" secondItem="8nY-Ym-ZkO" secondAttribute="leadingMargin" id="SZ2-Z1-zE3"/>
                                         <constraint firstItem="fcc-Qu-0ZR" firstAttribute="top" secondItem="8nY-Ym-ZkO" secondAttribute="topMargin" constant="-8" id="Sgb-h8-J7m"/>
@@ -70,12 +68,6 @@
                                         <constraint firstItem="p8f-DK-Zvb" firstAttribute="leading" secondItem="8nY-Ym-ZkO" secondAttribute="leadingMargin" constant="57" id="nxg-4e-p6g"/>
                                         <constraint firstItem="E84-V8-qXS" firstAttribute="leading" secondItem="ina-5e-YcH" secondAttribute="trailing" constant="10" id="vb5-Sb-IUO"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="KBT-aL-zwb"/>
-                                            <exclude reference="AJd-e0-Ysc"/>
-                                        </mask>
-                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cellImageView" destination="fcc-Qu-0ZR" id="DbS-Sn-h1W"/>
@@ -99,7 +91,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVY-pn-G05">
-                                            <rect key="frame" x="72" y="1" width="150" height="14.5"/>
+                                            <rect key="frame" x="72" y="1" width="150" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="mgY-U5-HNg"/>
                                             </constraints>
@@ -108,21 +100,21 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bmn-yB-XSR">
-                                            <rect key="frame" x="62" y="170.5" width="497" height="15.5"/>
+                                            <rect key="frame" x="62" y="171" width="497" height="15"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tkz-7M-E5f">
-                                            <rect key="frame" x="236" y="20.5" width="150" height="150"/>
+                                            <rect key="frame" x="236" y="21" width="150" height="150"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="LB9-mw-Xl9"/>
                                                 <constraint firstAttribute="height" constant="150" id="uN3-C6-4oB"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DGL-Qm-mNx">
-                                            <rect key="frame" x="232" y="1" width="150" height="14.5"/>
+                                            <rect key="frame" x="232" y="1" width="150" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="pR3-qK-NE7"/>
                                             </constraints>
@@ -143,7 +135,7 @@
                                         <constraint firstItem="zg3-if-iTx" firstAttribute="leading" secondItem="kKd-dl-t2Z" secondAttribute="leadingMargin" id="gOS-mm-oY4"/>
                                         <constraint firstItem="sVY-pn-G05" firstAttribute="top" secondItem="zg3-if-iTx" secondAttribute="top" id="s5j-mc-SCy"/>
                                         <constraint firstItem="DGL-Qm-mNx" firstAttribute="top" secondItem="sVY-pn-G05" secondAttribute="top" id="taH-tV-xJI"/>
-                                        <constraint firstItem="Bmn-yB-XSR" firstAttribute="leading" secondItem="kKd-dl-t2Z" secondAttribute="leadingMargin" constant="54" id="xcD-kp-w3B"/>
+                                        <constraint firstItem="Bmn-yB-XSR" firstAttribute="leading" secondItem="kKd-dl-t2Z" secondAttribute="leadingMargin" priority="950" constant="54" id="xcD-kp-w3B"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Bmn-yB-XSR" secondAttribute="bottom" constant="5" id="xyt-GL-8rz"/>
                                     </constraints>
                                     <variation key="default">
@@ -158,6 +150,7 @@
                                     <outlet property="imageAttachment" destination="Tkz-7M-E5f" id="ogp-G8-m8b"/>
                                     <outlet property="textView" destination="Bmn-yB-XSR" id="0Ph-xo-HuR"/>
                                     <outlet property="titleLabel" destination="sVY-pn-G05" id="A9x-ts-Cft"/>
+                                    <segue destination="EEl-VO-cOW" kind="show" identifier="showMedia2" id="ssW-RH-Dyn"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" id="vXS-U0-QLG">
@@ -317,10 +310,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lev-xf-hfi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-116" y="1639"/>
+            <point key="canvasLocation" x="550" y="2139"/>
         </scene>
     </scenes>
     <resources>
         <image name="second" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ssW-RH-Dyn"/>
+    </inferredMetricsTieBreakers>
 </document>

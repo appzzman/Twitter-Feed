@@ -409,6 +409,7 @@ class JMCTweet : NSObject{
         }
         
         override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+           
             if(segue.identifier == "showMedia"){
                 if let k  = sender as? UITableViewCell
                 {
@@ -420,6 +421,20 @@ class JMCTweet : NSObject{
                     
                 }
             }
+            if(segue.identifier == "showMedia2"){
+                if let k  = sender as? UITableViewCell
+                {
+                    var vc = segue.destinationViewController as MediaViewController
+                    let indexPath = self.tableView.indexPathForCell(k)
+                    let tweet = self.tm.tweets[indexPath!.row]
+                    tweet.urls?.append(NSURL(string:tweet.messageImageURL!)!)
+                    vc.urls = tweet.urls
+                    
+                    
+                }
+            }
+            
+            
         }
         
         override func viewDidLoad() {
@@ -473,62 +488,86 @@ class JMCTweet : NSObject{
         override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             ///let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "tweetCell") as TweetCell
             let tweet = tm.tweets[indexPath.row]
-            //get image cell
-            var cell:BasicCell
-
-            if let img = tweet.messageImageURL {
-                cell = tableView.dequeueReusableCellWithIdentifier("imageCell") as ImageCell
-                cell.imageAttachment.image = tm.images[tweet.messageImageURL!]
-            }
-            else{
-               cell = tableView.dequeueReusableCellWithIdentifier("basicCell") as BasicCell
-            }
-
-            
-            if let attachments = tweet.urls
-            {
-                if attachments.count > 0 {
-                    cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                    cell.userInteractionEnabled = true
-                    cell.selectionStyle = UITableViewCellSelectionStyle.Default
-
-                }
-                else{
-                    cell.accessoryType = UITableViewCellAccessoryType.None
-                    cell.userInteractionEnabled = false
-                    cell.selectionStyle = UITableViewCellSelectionStyle.None
-                    }
-                }
-            else{
-                cell.accessoryType = UITableViewCellAccessoryType.None
-                cell.userInteractionEnabled = false
-                cell.selectionStyle = UITableViewCellSelectionStyle.None
-            }
-            
-            
-            cell.titleLabel.text = tweet.name
-            cell.textView.text = tweet.text
-            cell.textView.userInteractionEnabled = false
-            cell.dateLabel.text = tweet.date
-
-            if let t = tweet.profileImageURL {
-                
-                cell.cellImageView.image = tm.images[tweet.profileImageURL!]
-                
-            }
-            
             if (indexPath.row ==  tm.tweets.count - 1)
             {
                 tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
                 println("reload\(indexPath.row)")
                 println("reload\(tm.tweets.count)")
-            
+                
             }
             
             
-            return cell
+            if let img = tweet.messageImageURL {
+                var cell = tableView.dequeueReusableCellWithIdentifier("imageCell") as ImageCell
+                cell.imageAttachment.image = tm.images[tweet.messageImageURL!]
+                cell.titleLabel.text = tweet.name
+                cell.textView.text = tweet.text
+                cell.textView.userInteractionEnabled = false
+                cell.dateLabel.text = tweet.date
+                if let t = tweet.profileImageURL {
+                    
+                    cell.cellImageView.image = tm.images[tweet.profileImageURL!]
+                    
+                }
+                
+                if let attachments = tweet.urls
+                {
+                    
+                    if attachments.count > 0 {
+                        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                        cell.userInteractionEnabled = true
+                        cell.selectionStyle = UITableViewCellSelectionStyle.Default
+                        
+                    }
+                    else{
+                        cell.accessoryType = UITableViewCellAccessoryType.None
+                        cell.userInteractionEnabled = false
+                        cell.selectionStyle = UITableViewCellSelectionStyle.None
+                    }
+                }
+                else{
+                    cell.accessoryType = UITableViewCellAccessoryType.None
+                    cell.userInteractionEnabled = false
+                    cell.selectionStyle = UITableViewCellSelectionStyle.None
+                }
+                 return cell
+            }
+            else{
+                var cell = tableView.dequeueReusableCellWithIdentifier("basicCell") as BasicCell
+                if let t = tweet.profileImageURL {
+                    
+                    cell.cellImageView.image = tm.images[tweet.profileImageURL!]
+                    
+                }
+                
+                if let attachments = tweet.urls
+                {
+                    cell.titleLabel.text = tweet.name
+                    cell.textView.text = tweet.text
+                    cell.textView.userInteractionEnabled = false
+                    cell.dateLabel.text = tweet.date
+                    
+                    if attachments.count > 0 {
+                        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                        cell.userInteractionEnabled = true
+                        cell.selectionStyle = UITableViewCellSelectionStyle.Default
+                        
+                    }
+                    else{
+                        cell.accessoryType = UITableViewCellAccessoryType.None
+                        cell.userInteractionEnabled = false
+                        cell.selectionStyle = UITableViewCellSelectionStyle.None
+                    }
+                }
+                else{
+                    cell.accessoryType = UITableViewCellAccessoryType.None
+                    cell.userInteractionEnabled = false
+                    cell.selectionStyle = UITableViewCellSelectionStyle.None
+                }
+                 return cell
+                
+                
+            }
         }
-        
-        
 }
 
