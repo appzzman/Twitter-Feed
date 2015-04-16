@@ -180,12 +180,13 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="rmf-ct-Ch9"/>
+                    <navigationItem key="navigationItem" title="Twitter" id="JNS-SA-SAg"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMq-Wq-x6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="550" y="756"/>
         </scene>
-        <!--Second-->
+        <!--Facebook-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="FacebookViewController" customModule="Socializer" customModuleProvider="target" sceneMemberID="viewController">
@@ -220,10 +221,11 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" title="Facebook" id="9YI-Zv-Os0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-116" y="724"/>
+            <point key="canvasLocation" x="-118" y="756"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lS8-lS-yRR">
@@ -277,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GDC-MW-aid" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="550" y="1483"/>
+            <point key="canvasLocation" x="550" y="1582"/>
         </scene>
         <!--Media Content Controller-->
         <scene sceneID="vDv-YF-N5N">
@@ -292,13 +294,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQW-XD-GSk">
-                                <rect key="frame" x="0.0" y="-49" width="600" height="649"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="OQW-XD-GSk" firstAttribute="top" secondItem="E1L-Jz-IzL" secondAttribute="topMargin" constant="-49" id="CY9-DD-ecV"/>
+                            <constraint firstItem="OQW-XD-GSk" firstAttribute="top" secondItem="E1L-Jz-IzL" secondAttribute="topMargin" id="CY9-DD-ecV"/>
                             <constraint firstItem="uHG-Oi-f3c" firstAttribute="top" secondItem="OQW-XD-GSk" secondAttribute="bottom" id="SQ1-9p-Nmc"/>
                             <constraint firstItem="OQW-XD-GSk" firstAttribute="leading" secondItem="E1L-Jz-IzL" secondAttribute="leading" id="jqB-c4-tOw"/>
                             <constraint firstAttribute="trailing" secondItem="OQW-XD-GSk" secondAttribute="trailing" id="oWE-oi-gOt"/>
@@ -310,7 +312,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lev-xf-hfi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="550" y="2139"/>
+            <point key="canvasLocation" x="352" y="2129"/>
         </scene>
     </scenes>
     <resources>

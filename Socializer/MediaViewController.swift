@@ -13,16 +13,24 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
 
     var urls:[NSURL]?
     var pageViewController:UIPageViewController?
-    
+    var vcs:[UIViewController]?
+
     //var viewControllers = [UIViewController]()
 
     override func viewDidLoad() {
         self.pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
-   
+        self.pageViewController?.delegate = self
+        self.pageViewController?.dataSource = self
+        self.navigationController?.navigationBar.translucent = false
+
+        var pageControl = UIPageControl.appearance()
+       pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageControl.currentPageIndicatorTintColor = UIColor.darkGrayColor()
+
         if let urls = self.urls {
-            var vcs = self.prepareContent(urls)
-            if vcs?.count > 0{
-                self.pageViewController!.setViewControllers([vcs![0]], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: { (finished) -> Void in
+            self.vcs = self.prepareContent(urls)
+            if self.vcs?.count > 0{
+                self.pageViewController!.setViewControllers([self.vcs![0]], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: { (finished) -> Void in
                     println("finished")
                 
             })
@@ -35,10 +43,10 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
         
     }
     
-    func prepareContent(urls:[NSURL])->[UIViewController]?{
+    func prepareContent(urls:[NSURL])->[UIViewController]{
       //get vc by id otherwise we would have to create programmatically
         var vcs = [MediaContentController]()
-        var index = 0 
+        var index = 0
         for url in urls {
         
             var vc  =  self.storyboard!.instantiateViewControllerWithIdentifier("MediaContentController") as MediaContentController
@@ -53,11 +61,16 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
     
     func indexOfViewController(viewController: MediaContentController) -> Int {
         
-        if let dataObject: AnyObject = viewController.index {
-            return pageContent.indexOfObject(dataObject)
-        } else {
-            return NSNotFound
+        if let urls = self.urls {
+            if let url = viewController.url
+            {
+              var index = find(urls,url)
+                if let index = index {
+                    return index
+                }
+            }
         }
+         return NSNotFound
     }
     
     
@@ -65,14 +78,37 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
         
         var index = indexOfViewController(viewController
             as MediaContentController)
-        
-        
-        return nil
+        if index < 1 || index == NSNotFound
+        {
+            return nil
+        }
+        else{
+           return self.vcs![index-1]
+        }
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?{
-        return nil
+        var index = indexOfViewController(viewController
+            as MediaContentController)
+        if index >= self.vcs!.count - 1
+        {
+            return nil
+        }
+        else{
+            return self.vcs![index+1]
+        }
+        
     }
+    
+    ///Delegate methods
+    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
+        return self.vcs!.count
+    }
+    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
+        return 0;
+    }
+    
+    
 }
 
 
@@ -83,6 +119,8 @@ class MediaContentController:UIViewController, UIWebViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.translucent = false
+        
         if let u = self.url {
             let httprequest = NSURLRequest(URL: u)
             self.webView.loadRequest(httprequest)

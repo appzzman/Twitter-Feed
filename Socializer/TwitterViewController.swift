@@ -442,6 +442,8 @@ class JMCTweet : NSObject{
             
             self.title = "Twitter"
             self.navigationController?.title = "Twitter"
+            self.navigationController?.navigationBar.translucent = false
+            
             
             // Do any additional setup after loading the view, typically from a nib.
             self.refreshControl = UIRefreshControl()
@@ -459,8 +461,6 @@ class JMCTweet : NSObject{
         
         func loadMore(){
             tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: false, lowerBond: true)
-            
-            //self.endRefreshing()
             
         }
         
@@ -491,8 +491,8 @@ class JMCTweet : NSObject{
             if (indexPath.row ==  tm.tweets.count - 1)
             {
                 tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
-                println("reload\(indexPath.row)")
-                println("reload\(tm.tweets.count)")
+//                println("reload\(indexPath.row)")
+//                println("reload\(tm.tweets.count)")
                 
             }
             
