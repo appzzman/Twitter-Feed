@@ -13,6 +13,9 @@ class FacebookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.tabBarController?.navigationItem.title = "Facebook";
+        self.navigationController?.navigationBar.translucent = false
+
     }
 
     override func didReceiveMemoryWarning() {

@@ -180,7 +180,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="rmf-ct-Ch9"/>
-                    <navigationItem key="navigationItem" title="Twitter" id="JNS-SA-SAg"/>
+                    <navigationItem key="navigationItem" title="Twitter" prompt="T" id="JNS-SA-SAg">
+                        <barButtonItem key="backBarButtonItem" title="T" id="M8T-2i-QT6"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMq-Wq-x6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

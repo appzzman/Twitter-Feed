@@ -440,12 +440,9 @@ class JMCTweet : NSObject{
         override func viewDidLoad() {
             super.viewDidLoad()
             
-            self.title = "Twitter"
-            self.navigationController?.title = "Twitter"
+            self.tabBarController?.navigationItem.title = "Twitter";
             self.navigationController?.navigationBar.translucent = false
-            
-            
-            // Do any additional setup after loading the view, typically from a nib.
+
             self.refreshControl = UIRefreshControl()
             self.refreshControl!.tintColor = UIColor.darkGrayColor()
             self.refreshControl!.attributedTitle = NSAttributedString(string: "Pull to Refresh")
