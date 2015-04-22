@@ -39,10 +39,11 @@
 		24EED8361AD9306400D3C7C5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8341AD9302F00D3C7C5 /* Parser.swift */; };
 		24EED8381ADBCB9600D3C7C5 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */; };
 		24EED8391ADCC19D00D3C7C5 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */; };
+		40884D3B1AE850D5002696F2 /* TweeterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40884D3A1AE850D5002696F2 /* TweeterManager.swift */; };
+		40884D3C1AE85117002696F2 /* TweeterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40884D3A1AE850D5002696F2 /* TweeterManager.swift */; };
 		40D277131ADD925D007D5594 /* NetworkingOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D277121ADD925D007D5594 /* NetworkingOperations.swift */; };
 		40D277141ADD926A007D5594 /* NetworkingOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D277121ADD925D007D5594 /* NetworkingOperations.swift */; };
 		828963BC1AAF5BFD00B546F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */; };
-		828963BE1AAF5BFD00B546F3 /* FacebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */; };
 		828963C01AAF5BFD00B546F3 /* TwitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */; };
 		828963C31AAF5BFD00B546F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 828963C11AAF5BFD00B546F3 /* Main.storyboard */; };
 		828963C51AAF5BFE00B546F3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 828963C41AAF5BFE00B546F3 /* Images.xcassets */; };
@@ -93,11 +94,11 @@
 /* Begin PBXFileReference section */
 		24EED8341AD9302F00D3C7C5 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		24EED8371ADBCB9600D3C7C5 /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
+		40884D3A1AE850D5002696F2 /* TweeterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TweeterManager.swift; path = ../TweeterManager.swift; sourceTree = "<group>"; };
 		40D277121ADD925D007D5594 /* NetworkingOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingOperations.swift; sourceTree = "<group>"; };
 		828963B61AAF5BFD00B546F3 /* Socializer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Socializer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		828963BA1AAF5BFD00B546F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookViewController.swift; sourceTree = "<group>"; };
 		828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterViewController.swift; sourceTree = "<group>"; };
 		828963C21AAF5BFD00B546F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		828963C41AAF5BFE00B546F3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -137,7 +138,7 @@
 		828963FB1AAFBBA800B546F3 /* SwifterUsers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwifterUsers.swift; sourceTree = "<group>"; };
 		828964181AAFC5BE00B546F3 /* Socializer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Socializer-Bridging-Header.h"; sourceTree = "<group>"; };
 		828964191AAFC5BE00B546F3 /* SocializerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SocializerTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		8289641A1AAFC5BF00B546F3 /* ObjcC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcC.m; sourceTree = "<group>"; };
+		8289641A1AAFC5BF00B546F3 /* ObjcC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjcC.m; path = ../ObjcC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +162,6 @@
 		828963AD1AAF5BFD00B546F3 = {
 			isa = PBXGroup;
 			children = (
-				8289641A1AAFC5BF00B546F3 /* ObjcC.m */,
 				828963B81AAF5BFD00B546F3 /* Socializer */,
 				828963D01AAF5BFE00B546F3 /* SocializerTests */,
 				828963B71AAF5BFD00B546F3 /* Products */,
@@ -182,9 +182,10 @@
 		828963B81AAF5BFD00B546F3 /* Socializer */ = {
 			isa = PBXGroup;
 			children = (
+				40884D3A1AE850D5002696F2 /* TweeterManager.swift */,
+				8289641A1AAFC5BF00B546F3 /* ObjcC.m */,
 				828963DD1AAFBBA800B546F3 /* Swifter */,
 				828963BB1AAF5BFD00B546F3 /* AppDelegate.swift */,
-				828963BD1AAF5BFD00B546F3 /* FacebookViewController.swift */,
 				828963BF1AAF5BFD00B546F3 /* TwitterViewController.swift */,
 				40D277121ADD925D007D5594 /* NetworkingOperations.swift */,
 				24EED8341AD9302F00D3C7C5 /* Parser.swift */,
@@ -362,6 +363,7 @@
 			files = (
 				8289640A1AAFBBA800B546F3 /* SwifterHTTPRequest.swift in Sources */,
 				828964121AAFBBA800B546F3 /* SwifterStreaming.swift in Sources */,
+				40884D3B1AE850D5002696F2 /* TweeterManager.swift in Sources */,
 				828964141AAFBBA800B546F3 /* SwifterTimelines.swift in Sources */,
 				828963FC1AAFBBA800B546F3 /* Dictionary+Swifter.swift in Sources */,
 				8289640F1AAFBBA800B546F3 /* SwifterSavedSearches.swift in Sources */,
@@ -379,7 +381,6 @@
 				828963BC1AAF5BFD00B546F3 /* AppDelegate.swift in Sources */,
 				8289640C1AAFBBA800B546F3 /* SwifterMessages.swift in Sources */,
 				828964091AAFBBA800B546F3 /* SwifterHelp.swift in Sources */,
-				828963BE1AAF5BFD00B546F3 /* FacebookViewController.swift in Sources */,
 				24EED8351AD9302F00D3C7C5 /* Parser.swift in Sources */,
 				828964151AAFBBA800B546F3 /* SwifterTrends.swift in Sources */,
 				8289640B1AAFBBA800B546F3 /* SwifterLists.swift in Sources */,
@@ -403,6 +404,7 @@
 			files = (
 				24D789CC1AD2A0670066405D /* SwifterHTTPRequest.swift in Sources */,
 				24D789D41AD2A0670066405D /* SwifterStreaming.swift in Sources */,
+				40884D3C1AE85117002696F2 /* TweeterManager.swift in Sources */,
 				24D789D61AD2A0670066405D /* SwifterTimelines.swift in Sources */,
 				24D789BF1AD2A04D0066405D /* Dictionary+Swifter.swift in Sources */,
 				24D789D11AD2A0670066405D /* SwifterSavedSearches.swift in Sources */,

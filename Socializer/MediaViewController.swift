@@ -49,7 +49,7 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
         var index = 0
         for url in urls {
         
-            var vc  =  self.storyboard!.instantiateViewControllerWithIdentifier("MediaContentController") as MediaContentController
+            var vc  =  self.storyboard!.instantiateViewControllerWithIdentifier("MediaContentController") as! MediaContentController
             vc.url = url
             vc.index = index
             index++
@@ -77,7 +77,7 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?{
         
         var index = indexOfViewController(viewController
-            as MediaContentController)
+            as! MediaContentController)
         if index < 1 || index == NSNotFound
         {
             return nil
@@ -89,7 +89,7 @@ class MediaViewController:UIViewController, UIPageViewControllerDataSource, UIPa
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?{
         var index = indexOfViewController(viewController
-            as MediaContentController)
+           as! MediaContentController)
         if index >= self.vcs!.count - 1
         {
             return nil

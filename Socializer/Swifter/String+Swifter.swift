@@ -77,7 +77,7 @@ extension String {
             scanner.scanString("&", intoString: nil)
 
             if key != nil && value != nil {
-                parameters.updateValue(value!, forKey: key!)
+                parameters.updateValue(value! as String, forKey: key! as String)
             }
         }
         
@@ -86,12 +86,13 @@ extension String {
 
     func SHA1DigestWithKey(key: String) -> NSData {
         let str = self.cStringUsingEncoding(NSUTF8StringEncoding)
-        let strLen = UInt(self.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+
         let digestLen = Int(CC_SHA1_DIGEST_LENGTH)
         let result = UnsafeMutablePointer<CUnsignedChar>.alloc(digestLen)
         let keyStr = key.cStringUsingEncoding(NSUTF8StringEncoding)
-        let keyLen = UInt(key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
-
+        let strLen = self.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let keyLen = key.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        //CCHmac(<#algorithm: CCHmacAlgorithm#>, <#key: UnsafePointer<Void>#>, <#keyLength: Int#>, <#data: UnsafePointer<Void>#>, <#dataLength: Int#>, <#macOut: UnsafeMutablePointer<Void>#>)
         CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA1), keyStr!, keyLen, str!, strLen, result)
 
         return NSData(bytes: result, length: digestLen)

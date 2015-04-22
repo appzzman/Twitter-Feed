@@ -66,7 +66,7 @@ class Parser{
         
         var detectorError:NSError?;
         let detector:NSDataDetector = NSDataDetector(types: NSTextCheckingType.Link.rawValue,error:&detectorError)!
-        if countElements(str) == 0 {return nil}
+        if count(str) == 0 {return nil}
         
         if let error = detectorError
         {
@@ -74,7 +74,7 @@ class Parser{
             return nil
         }
         
-        var rawMatches:NSArray = detector.matchesInString(str, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, countElements(str)))
+        var rawMatches:NSArray = detector.matchesInString(str, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, count(str)))
         
         var matches = [NSURL]()
         for match in rawMatches {
