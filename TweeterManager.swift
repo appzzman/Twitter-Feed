@@ -188,7 +188,7 @@ class TweeterManager{
         
         if let request = lastRequest {
             let date = NSDate()
-            if Int(date.timeIntervalSinceDate(request)) < self.queringInterval
+            if Int(date.timeIntervalSinceDate(request)) < Int( self.queringInterval)
             {
                 
             }
