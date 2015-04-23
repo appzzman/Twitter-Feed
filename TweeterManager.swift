@@ -13,16 +13,20 @@ class TweeterManager{
     var images :[String: UIImage] = [String: UIImage]()
     var networkingManager:Networking
     var parser:Parser
-    
     var swifter: Swifter
+    
     var searchQuery = "tripadvisor"
-    var count = 50
+    var count = 100
+    var queringInterval = 2
     
     var completionHandler:(()->Void)? //updating entire table
     var errorHandler:((error:String)->Void)? // errors
     var cellUpdater:((messageIds:[UInt64]?)->Void)?//updates single cell identified by ID
     var tweetsIds = [UInt64:Bool]()
-    var authorized:Bool = false
+    var lastRequest:NSDate?
+    
+    
+    dynamic var authorized:Bool = false
     
     //min and max boundaries of message ids
     var maxId:UInt64?
@@ -30,9 +34,11 @@ class TweeterManager{
     
     //Default initializer
     init(consumerKey:String, consumerSecret:String){
-        swifter = Swifter(consumerKey: "9LUhnfxzbYb7hdaS4bSVZawgZ", consumerSecret: "7XPh2AUJTxEWQRO4SMrTNDsvPZitHXKPlDhzZ9LKhsFsiCC3Ne", appOnly: true)
+        
+        swifter = Swifter(consumerKey: consumerKey, consumerSecret:consumerSecret, appOnly: true)
         networkingManager = Networking()
         parser = Parser()
+      //  authenticateApp()
         
         /*Called when parser finishes parsing the message */
         parser.urlHandler = { (messageId:UInt64, urls:[NSURL]? )->Void in
@@ -71,7 +77,7 @@ class TweeterManager{
                 
             }
         }
-        authenticateApp()
+
     }
     
     
@@ -180,6 +186,15 @@ class TweeterManager{
     //gets tweets 
     func getTweetsWithSearchQuery(searchQuery:String, maxId:String?, minId:String?){
         
+        if let request = lastRequest {
+            let date = NSDate()
+            if Int(date.timeIntervalSinceDate(request)) < self.queringInterval
+            {
+                
+            }
+            lastRequest = date
+        }
+        
         
         self.swifter.getSearchTweetsWithQuery(
             searchQuery, geocode: nil, lang: nil, locale: nil, resultType: nil, count: count, until: nil, sinceID:minId, maxID: maxId, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
@@ -210,7 +225,7 @@ class TweeterManager{
     
     
     //authenticate app
-    func authenticateApp(){
+ func authenticateApp(completionHandler:()->Void, errorHandler:(error:String)->Void){
         self.swifter.authorizeAppOnlyWithSuccess({ (accessToken, response) -> Void in
             self.authorized = true
             }, failure: { (error) -> Void in

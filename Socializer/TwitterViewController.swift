@@ -93,7 +93,7 @@ import UIKit
     class TwitterViewController: UITableViewController {
 
         var tm:TweeterManager =  TweeterManager(consumerKey:  "9LUhnfxzbYb7hdaS4bSVZawgZ", consumerSecret:"7XPh2AUJTxEWQRO4SMrTNDsvPZitHXKPlDhzZ9LKhsFsiCC3Ne")
-      
+        
 
         // var networkingManager = Networking()
         func updateTable()->Void{
@@ -182,7 +182,14 @@ import UIKit
             tableView.reloadData()
             
             tm.searchQuery = "iTenWired"
-            tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: false, lowerBond: false)
+            tm.authenticateApp({ () -> Void in
+                  self.tm.getTweetsWithHandler(self.updateTable, errorHandler: self.errorHandler,cellHandler: self.updateCells, upperBond: false, lowerBond: false)
+            }, errorHandler: { (error) -> Void in
+                println(error)
+            })
+            
+            
+
             
         }
         
@@ -216,7 +223,7 @@ import UIKit
             ///let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "tweetCell") as TweetCell
             let tweet = tm.tweets[indexPath.row]
             if (indexPath.row ==  tm.tweets.count - 1)
-            {
+            {   
                 tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
                 
             }

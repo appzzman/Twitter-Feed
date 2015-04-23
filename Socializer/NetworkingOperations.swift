@@ -15,6 +15,7 @@ class ImageDownloader: NSOperation {
     let filePath:String
     let keyPath:String
     var image:UIImage?
+
     
     init(urlString: String, filePath:String, keyPath:String) {
         self.urlString = urlString
