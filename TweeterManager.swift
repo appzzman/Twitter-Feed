@@ -186,15 +186,21 @@ class TweeterManager{
     //gets tweets 
     func getTweetsWithSearchQuery(searchQuery:String, maxId:String?, minId:String?){
         
+        let date = NSDate()
+
         if let request = lastRequest {
-            let date = NSDate()
-            if Int(date.timeIntervalSinceDate(request)) < Int( self.queringInterval)
+                    if Int(date.timeIntervalSinceDate(request)) < Int( self.queringInterval)
             {
+                if let handler = self.completionHandler {
+                    handler()
+                }
                 
+                return;
             }
-            lastRequest = date
         }
-        
+
+        lastRequest = date
+
         
         self.swifter.getSearchTweetsWithQuery(
             searchQuery, geocode: nil, lang: nil, locale: nil, resultType: nil, count: count, until: nil, sinceID:minId, maxID: maxId, includeEntities: nil, callback: nil, success: { (statuses, searchMetadata) -> Void in
@@ -227,6 +233,8 @@ class TweeterManager{
     //authenticate app
  func authenticateApp(completionHandler:()->Void, errorHandler:(error:String)->Void){
         self.swifter.authorizeAppOnlyWithSuccess({ (accessToken, response) -> Void in
+            completionHandler()
+
             self.authorized = true
             }, failure: { (error) -> Void in
                 println(error)

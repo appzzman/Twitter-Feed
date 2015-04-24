@@ -134,6 +134,7 @@ import UIKit
         
         
         func errorHandler(error:String)->Void{
+            
             endRefreshing()
         }
         
@@ -183,6 +184,7 @@ import UIKit
             
             tm.searchQuery = "iTenWired"
             tm.authenticateApp({ () -> Void in
+                
                   self.tm.getTweetsWithHandler(self.updateTable, errorHandler: self.errorHandler,cellHandler: self.updateCells, upperBond: false, lowerBond: false)
             }, errorHandler: { (error) -> Void in
                 println(error)
@@ -216,17 +218,36 @@ import UIKit
         }
         
         override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           
             return self.tm.tweets.count
+        }
+        
+        override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+            //we will use it to trigger segue
+            self.performSegueWithIdentifier("showMedia", sender: tableView.cellForRowAtIndexPath(indexPath))
+            
+        }
+        
+        
+        //prevents table view from autoloading if there not enough tweets, that feels like a hack
+        override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+            if(self.tm.tweets.count < 12)
+            {
+                
+                return
+            }
+            
+            if (indexPath.row ==  tm.tweets.count - 1)
+            {
+                tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
+                
+            }
         }
         
         override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             ///let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "tweetCell") as TweetCell
             let tweet = tm.tweets[indexPath.row]
-            if (indexPath.row ==  tm.tweets.count - 1)
-            {   
-                tm.getTweetsWithHandler(updateTable, errorHandler: errorHandler,cellHandler: updateCells, upperBond: true, lowerBond: false)
-                
-            }
+
             
             
             if let img = tweet.messageImageURL {

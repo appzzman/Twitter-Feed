@@ -74,7 +74,6 @@
                                     <outlet property="dateLabel" destination="E84-V8-qXS" id="aig-cc-Asx"/>
                                     <outlet property="textView" destination="p8f-DK-Zvb" id="a7k-rs-SJz"/>
                                     <outlet property="titleLabel" destination="ina-5e-YcH" id="rAf-bw-RHW"/>
-                                    <segue destination="EEl-VO-cOW" kind="show" identifier="showMedia" id="9ix-mx-Apw"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="imageCell" rowHeight="200" id="0vN-NS-EI8" customClass="ImageCell" customModule="Socializer" customModuleProvider="target">
@@ -150,7 +149,6 @@
                                     <outlet property="imageAttachment" destination="Tkz-7M-E5f" id="ogp-G8-m8b"/>
                                     <outlet property="textView" destination="Bmn-yB-XSR" id="0Ph-xo-HuR"/>
                                     <outlet property="titleLabel" destination="sVY-pn-G05" id="A9x-ts-Cft"/>
-                                    <segue destination="EEl-VO-cOW" kind="show" identifier="showMedia2" id="ssW-RH-Dyn"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" id="vXS-U0-QLG">
@@ -180,9 +178,10 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="rmf-ct-Ch9"/>
-                    <navigationItem key="navigationItem" title="Twitter" prompt="T" id="JNS-SA-SAg">
-                        <barButtonItem key="backBarButtonItem" title="T" id="M8T-2i-QT6"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Twitter" id="JNS-SA-SAg"/>
+                    <connections>
+                        <segue destination="EEl-VO-cOW" kind="show" identifier="showMedia" id="NPe-UP-z7E"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMq-Wq-x6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -256,7 +255,4 @@
             <point key="canvasLocation" x="352" y="2129"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="ssW-RH-Dyn"/>
-    </inferredMetricsTieBreakers>
 </document>
