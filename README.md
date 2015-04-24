@@ -4,12 +4,15 @@ Tweets are displayed in table view and reloaded with refresh control and when us
 Enjoy it.
 
 To use it in your app you have to copy the files:
-TwitterViewController.swift
-Parser.swift
-NetworkingOperations.swift
-MediaViewController.swift 
+<ul>
+<li>TwitterViewController.swift</li>
+<li>Parser.swift</li>
+<li>NetworkingOperations.swift</li>
+<li>MediaViewController.swift </li>
+</ul>
 
-And change the key and consumer secret in the TweeterManager to your values:
+And change the key and consumer secret in the TweeterViewController to your values:
+'''
 var tm:TweeterManager =  TweeterManager(consumerKey:  "9LUhnfxzbYb7hdaS4bSVZawgZ", consumerSecret:"7XPh2AUJTxEWQRO4SMrTNDsvPZitHXKPlDhzZ9LKhsFsiCC3Ne")
-
+'''
 
