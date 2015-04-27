@@ -15,7 +15,7 @@ And change the key and consumer secret in the TweeterViewController to your valu
 ```
 var tm:TweeterManager =  TweeterManager(consumerKey:  "9LUhnfxzbYb7hdaS4bSVZawgZ", consumerSecret:"7XPh2AUJTxEWQRO4SMrTNDsvPZitHXKPlDhzZ9LKhsFsiCC3Ne")
 ```
-And change the query to look for to your desire one:
+And change the Twitter query to look for to your desire one:
 ```
 tm.searchQuery = "TwitterAPI"
 ```
